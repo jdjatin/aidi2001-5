@@ -4,6 +4,10 @@ import json
 from datetime import datetime
 from pathlib import Path
 import tempfile
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import dependencies from existing codebase
 import sys
@@ -190,18 +194,22 @@ with tab3:
                 key=f"tailor_resume_display_{selected_resume_id}"
             )
         
-        # Get API key from environment or sidebar
+        # Get API key from environment variables (loaded from .env)
         api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
         
-        with st.expander("🔑 API Configuration", expanded=not api_key):
-            api_key_input = st.text_input(
-                "Enter your Google Gemini API Key",
-                value=api_key or "",
-                type="password",
-                help="Get it from https://aistudio.google.com"
-            )
-            if api_key_input:
-                api_key = api_key_input
+        # Only show API configuration if not already set
+        if not api_key:
+            with st.expander("🔑 API Configuration", expanded=True):
+                st.warning("⚠️ API Key not found in environment. Please enter it below.")
+                api_key_input = st.text_input(
+                    "Enter your Google Gemini API Key",
+                    type="password",
+                    help="Get it from https://aistudio.google.com"
+                )
+                if api_key_input:
+                    api_key = api_key_input
+        else:
+            st.success(f"✅ API Key loaded from environment")
         
         if not api_key:
             st.error("❌ Google Gemini API key required. Please configure it above.")
