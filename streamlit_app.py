@@ -6,12 +6,27 @@ from pathlib import Path
 import tempfile
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file (for local development)
+# Explicitly load from the project root
+env_path = Path(__file__).parent / '.env'
+load_dotenv(env_path)
 
 # Import dependencies from existing codebase
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Function to get API key from environment or Streamlit secrets
+def get_api_key():
+    # Try Streamlit secrets first (Streamlit Cloud)
+    try:
+        if hasattr(st, 'secrets') and 'GEMINI_API_KEY' in st.secrets:
+            return st.secrets['GEMINI_API_KEY']
+    except:
+        pass
+    
+    # Try environment variables (local development with .env)
+    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+    return api_key
 
 # Configure page
 st.set_page_config(
@@ -194,13 +209,13 @@ with tab3:
                 key=f"tailor_resume_display_{selected_resume_id}"
             )
         
-        # Get API key from environment variables (loaded from .env)
-        api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+        # Get API key from environment variables or Streamlit Secrets
+        api_key = get_api_key()
         
         # Only show API configuration if not already set
         if not api_key:
             with st.expander("🔑 API Configuration", expanded=True):
-                st.warning("⚠️ API Key not found in environment. Please enter it below.")
+                st.warning("⚠️ API Key not found. Please enter it below.")
                 api_key_input = st.text_input(
                     "Enter your Google Gemini API Key",
                     type="password",
@@ -209,7 +224,7 @@ with tab3:
                 if api_key_input:
                     api_key = api_key_input
         else:
-            st.success(f"✅ API Key loaded from environment")
+            st.success("✅ API Key loaded from environment")
         
         if not api_key:
             st.error("❌ Google Gemini API key required. Please configure it above.")
