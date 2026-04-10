@@ -289,7 +289,30 @@ with tab3:
                         import google.generativeai as genai
                         genai.configure(api_key=api_key)
                         
-                        model = genai.GenerativeModel("gemini-1.5-flash")
+                        # Try multiple models in order of preference
+                        models_to_try = [
+                            "gemini-1.5-pro",
+                            "gemini-1.5-flash",
+                            "gemini-pro",
+                            "models/gemini-1.5-pro-latest",
+                            "models/gemini-1.5-flash-latest",
+                        ]
+                        
+                        model = None
+                        last_error = None
+                        
+                        for model_name in models_to_try:
+                            try:
+                                model = genai.GenerativeModel(model_name)
+                                # Test the model with a simple call
+                                model.count_tokens("test")
+                                break
+                            except Exception as e:
+                                last_error = e
+                                continue
+                        
+                        if not model:
+                            raise Exception(f"No compatible model found. Last error: {last_error}")
                         
                         base_resume = all_resumes_tab3[selected_resume_id]["content"]
                         
