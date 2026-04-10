@@ -1,0 +1,94 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: "Issue #2 tracer bullet"
+      - heading "Resume Variant Lab" [level=1] [ref=e6]
+      - paragraph [ref=e7]: One base resume in, many ATS-friendly variants out. This first slice stands up the full-stack app shell, remote-database wiring, and a minimal resume library so we have a stable home for the rest of the workflow.
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: Resume library
+          - heading "Stored resumes" [level=2] [ref=e12]
+          - paragraph [ref=e13]: This tracer bullet proves the app shell, persistence wiring, and active resume selection.
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - img [ref=e17]
+              - text: Connected to database
+            - generic [ref=e21]: Remote persistence ready
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - button "PARSED TEXT Backend engineer /resume/backend-engineer-u7t4rf" [ref=e24]:
+                - generic [ref=e25]:
+                  - generic [ref=e26]: PARSED
+                  - generic [ref=e27]: TEXT
+                - generic [ref=e28]:
+                  - heading "Backend engineer" [level=3] [ref=e29]
+                  - paragraph [ref=e30]: /resume/backend-engineer-u7t4rf
+            - listitem [ref=e31]:
+              - 'button "FAILED PDF Resume-solution-architect.pdf Backend Dev /resume/backend-dev-sjeizd Setting up fake worker failed: \"Cannot find module ''/home/jd/Downloads/aidi2001-assignment5/.next/dev/server/chunks/pdf.worker.mjs'' imported from /home/jd/Downloads/aidi2001-assignment5/.next/dev/server/chunks/node_modules_pdfjs-dist_legacy_build_pdf_mjs_108wwko._.js\"." [ref=e32]':
+                - generic [ref=e33]:
+                  - generic [ref=e34]: FAILED
+                  - generic [ref=e35]: PDF
+                  - generic [ref=e36]: Resume-solution-architect.pdf
+                - generic [ref=e37]:
+                  - heading "Backend Dev" [level=3] [ref=e38]
+                  - paragraph [ref=e39]: /resume/backend-dev-sjeizd
+                  - paragraph [ref=e40]: "Setting up fake worker failed: \"Cannot find module '/home/jd/Downloads/aidi2001-assignment5/.next/dev/server/chunks/pdf.worker.mjs' imported from /home/jd/Downloads/aidi2001-assignment5/.next/dev/server/chunks/node_modules_pdfjs-dist_legacy_build_pdf_mjs_108wwko._.js\"."
+            - listitem [ref=e41]:
+              - button "PARSED TEXT Backend Developer /resume/backend-developer-h3i4ue" [ref=e42]:
+                - generic [ref=e43]:
+                  - generic [ref=e44]: PARSED
+                  - generic [ref=e45]: TEXT
+                - generic [ref=e46]:
+                  - heading "Backend Developer" [level=3] [ref=e47]
+                  - paragraph [ref=e48]: /resume/backend-developer-h3i4ue
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: Create a resume
+            - heading "Seed the workspace" [level=2] [ref=e53]
+            - paragraph [ref=e54]: This form posts through the app API so the full stack is already talking end to end.
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - text: Resume title
+              - textbox "Resume title" [ref=e58]:
+                - /placeholder: Data Analyst Base Resume
+            - generic [ref=e59]:
+              - text: Optional resume text
+              - textbox "Optional resume text" [ref=e60]:
+                - /placeholder: Paste resume text now, or leave this blank to wire PDF upload in the next slice.
+            - generic [ref=e61]:
+              - text: Or upload a PDF
+              - button "Or upload a PDF" [ref=e62]
+            - paragraph [ref=e63]: Use either pasted resume text or a PDF upload. If parsing fails, you can retry later with text input as the fallback path.
+            - button "Create resume" [ref=e64] [cursor=pointer]:
+              - img [ref=e65]
+              - text: Create resume
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]: Active resume
+            - heading "Backend engineer" [level=2] [ref=e69]
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic [ref=e72]: PARSED
+              - generic [ref=e73]: TEXT
+              - generic [ref=e74]: 2026-04-09
+            - paragraph [ref=e75]: The next slice will turn this card into a real resume detail page with parsed structure review.
+            - button "Open detail flow" [ref=e76] [cursor=pointer]:
+              - text: Open detail flow
+              - img [ref=e77]
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]: LLM tailoring
+            - heading "Generate an updated resume" [level=2] [ref=e82]
+            - paragraph [ref=e83]: Paste a job description and Gemini will rewrite the active parsed resume to match it more closely.
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - text: Job description
+              - textbox "Job description" [ref=e87]:
+                - /placeholder: Paste the full JD here to generate an updated resume.
+                - text: Too short JD
+            - button "Generate updated resume" [active] [ref=e88] [cursor=pointer]:
+              - img [ref=e89]
+              - text: Generate updated resume

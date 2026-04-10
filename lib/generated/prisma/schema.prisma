@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ResumeParseStatus {
+  UPLOADED
+  PARSING
+  PARSED
+  FAILED
+}
+
+model Resume {
+  id               String            @id @default(cuid())
+  title            String
+  slug             String            @unique
+  sourceType       String
+  originalFilename String?
+  filePath         String?
+  parseStatus      ResumeParseStatus @default(UPLOADED)
+  sourceText       String?
+  extractedText    String?
+  parseError       String?
+  structuredData   Json?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
