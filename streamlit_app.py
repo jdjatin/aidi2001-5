@@ -179,6 +179,17 @@ with tab3:
             format_func=lambda x: resume_options[x]
         )
         
+        # Display selected resume content
+        selected_resume = st.session_state.resumes[selected_resume_id]
+        with st.expander("📄 Selected Resume", expanded=True):
+            st.text_area(
+                "Resume Content",
+                value=selected_resume["content"],
+                height=250,
+                disabled=True,
+                key=f"tailor_resume_display_{selected_resume_id}"
+            )
+        
         # Get API key from environment or sidebar
         api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
         
@@ -195,23 +206,22 @@ with tab3:
         if not api_key:
             st.error("❌ Google Gemini API key required. Please configure it above.")
         else:
-            col1, col2 = st.columns([1, 1])
+            # Stack layout: job description on top, results below
+            st.subheader("Job Description")
+            job_description = st.text_area(
+                "Paste the job description here",
+                height=250,
+                placeholder="Paste the job description here...",
+                label_visibility="collapsed",
+                key="job_desc_input"
+            )
             
-            with col1:
-                job_description = st.text_area(
-                    "Job Description",
-                    height=300,
-                    placeholder="Paste the job description here..."
-                )
+            tailoring_status = st.empty()
+            tailored_preview = st.empty()
             
-            with col2:
-                st.write("**Tailored Resume Preview**")
-                tailored_preview = st.empty()
-                tailoring_status = st.empty()
-            
-            if st.button("✨ Generate Tailored Resume", key="tailor_btn"):
+            if st.button("✨ Generate Tailored Resume", key="tailor_btn", use_container_width=True):
                 if not job_description.strip():
-                    st.error("❌ Please enter a job description")
+                    tailoring_status.error("❌ Please enter a job description")
                 else:
                     try:
                         tailoring_status.info("🔄 Tailoring resume using AI...")
@@ -243,26 +253,36 @@ Tailored Resume:"""
                         tailored_text = response.text
                         
                         tailoring_status.success("✅ Resume tailored successfully!")
-                        tailored_preview.text_area(
-                            "Tailored Resume",
-                            value=tailored_text,
-                            height=300,
-                            disabled=True,
-                            key="tailored_preview"
-                        )
                         
-                        # Option to save tailored resume
-                        if st.button("💾 Save Tailored Resume", key="save_tailored"):
-                            resume_id = f"resume_tailored_{datetime.now().timestamp()}"
-                            st.session_state.resumes[resume_id] = {
-                                "title": f"{st.session_state.resumes[selected_resume_id]['title']} - Tailored",
-                                "content": tailored_text,
-                                "status": "PARSED",
-                                "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                "source_type": "TEXT"
-                            }
-                            st.success("✅ Tailored resume saved to library!")
-                            st.rerun()
+                        with tailored_preview.container():
+                            st.subheader("✨ Tailored Resume")
+                            st.text_area(
+                                "Result",
+                                value=tailored_text,
+                                height=350,
+                                disabled=True,
+                                key="tailored_result",
+                                label_visibility="collapsed"
+                            )
+                            
+                            # Option to save tailored resume
+                            col_save, col_copy = st.columns(2)
+                            with col_save:
+                                if st.button("💾 Save to Library", key="save_tailored", use_container_width=True):
+                                    resume_id = f"resume_tailored_{datetime.now().timestamp()}"
+                                    st.session_state.resumes[resume_id] = {
+                                        "title": f"{st.session_state.resumes[selected_resume_id]['title']} - Tailored",
+                                        "content": tailored_text,
+                                        "status": "PARSED",
+                                        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                        "source_type": "TEXT"
+                                    }
+                                    st.success("✅ Tailored resume saved to library!")
+                                    st.rerun()
+                            
+                            with col_copy:
+                                if st.button("📋 Copy to Clipboard", key="copy_tailored", use_container_width=True):
+                                    st.info("✅ Copy this text from the box above")
                     
                     except Exception as e:
                         tailoring_status.error(f"❌ Error: {str(e)}")
