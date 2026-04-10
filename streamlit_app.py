@@ -15,18 +15,28 @@ load_dotenv(env_path)
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
 
+# Import database module
+from streamlit_db import load_resumes_from_db, save_resume_to_db, delete_resume_from_db, get_db_connection
+
 # Function to get API key from environment or Streamlit secrets
+@st.cache_resource
 def get_api_key():
     # Try Streamlit secrets first (Streamlit Cloud)
     try:
         if hasattr(st, 'secrets') and 'GEMINI_API_KEY' in st.secrets:
-            return st.secrets['GEMINI_API_KEY']
+            key = st.secrets['GEMINI_API_KEY']
+            if key:
+                return key
     except:
         pass
     
     # Try environment variables (local development with .env)
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
-    return api_key
+    if api_key:
+        # Handle quoted values from .env file
+        return api_key.strip('"').strip("'")
+    
+    return None
 
 # Configure page
 st.set_page_config(
@@ -87,14 +97,18 @@ tab1, tab2, tab3 = st.tabs(["📚 Resume Library", "⬆️ Upload Resume", "✨ 
 with tab1:
     st.header("Resume Library")
     
-    if not st.session_state.resumes:
+    # Load resumes from database
+    db_resumes = load_resumes_from_db()
+    all_resumes = {**db_resumes, **st.session_state.resumes}
+    
+    if not all_resumes:
         st.info("📭 No resumes uploaded yet. Use the 'Upload Resume' tab to get started.")
     else:
         col1, col2 = st.columns([3, 1])
         with col1:
-            st.subheader(f"Total Resumes: {len(st.session_state.resumes)}")
+            st.subheader(f"Total Resumes: {len(all_resumes)}")
         
-        for resume_id, resume_data in st.session_state.resumes.items():
+        for resume_id, resume_data in all_resumes.items():
             with st.container():
                 col1, col2, col3 = st.columns([3, 1, 1])
                 
@@ -108,7 +122,10 @@ with tab1:
                 
                 with col3:
                     if st.button("Delete", key=f"del_{resume_id}"):
-                        del st.session_state.resumes[resume_id]
+                        if resume_id in db_resumes:
+                            delete_resume_from_db(resume_id)
+                        else:
+                            del st.session_state.resumes[resume_id]
                         st.rerun()
                 
                 if st.session_state.selected_resume == resume_id:
@@ -146,16 +163,28 @@ with tab2:
                     for page in pdf_reader.pages:
                         text += page.extract_text()
                     
-                    resume_id = f"resume_{len(st.session_state.resumes)}_{datetime.now().timestamp()}"
-                    st.session_state.resumes[resume_id] = {
-                        "title": resume_title or "Untitled Resume",
-                        "content": text,
-                        "status": "PARSED",
-                        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "source_type": "PDF"
-                    }
-                    st.success(f"✅ Resume '{resume_title}' uploaded successfully!")
-                    st.rerun()
+                    # Save to database first
+                    resume_id = save_resume_to_db(
+                        title=resume_title or "Untitled Resume",
+                        content=text,
+                        source_type="PDF",
+                        original_filename=uploaded_file.name
+                    )
+                    
+                    if resume_id:
+                        st.success(f"✅ Resume '{resume_title}' uploaded successfully!")
+                        st.rerun()
+                    else:
+                        # Fallback to session state
+                        st.session_state.resumes[f"resume_{datetime.now().timestamp()}"] = {
+                            "title": resume_title or "Untitled Resume",
+                            "content": text,
+                            "status": "PARSED",
+                            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "source_type": "PDF"
+                        }
+                        st.success(f"✅ Resume '{resume_title}' uploaded successfully (local storage)!")
+                        st.rerun()
                 except Exception as e:
                     st.error(f"❌ Error processing PDF: {str(e)}")
     
@@ -170,16 +199,27 @@ with tab2:
         
         if st.button("Upload Text Resume", key="upload_text_btn"):
             if resume_text.strip():
-                resume_id = f"resume_{len(st.session_state.resumes)}_{datetime.now().timestamp()}"
-                st.session_state.resumes[resume_id] = {
-                    "title": resume_title_text or "Text Resume",
-                    "content": resume_text,
-                    "status": "PARSED",
-                    "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "source_type": "TEXT"
-                }
-                st.success(f"✅ Resume '{resume_title_text}' added successfully!")
-                st.rerun()
+                # Save to database first
+                resume_id = save_resume_to_db(
+                    title=resume_title_text or "Text Resume",
+                    content=resume_text,
+                    source_type="TEXT"
+                )
+                
+                if resume_id:
+                    st.success(f"✅ Resume '{resume_title_text}' added successfully!")
+                    st.rerun()
+                else:
+                    # Fallback to session state
+                    st.session_state.resumes[f"resume_{datetime.now().timestamp()}"] = {
+                        "title": resume_title_text or "Text Resume",
+                        "content": resume_text,
+                        "status": "PARSED",
+                        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "source_type": "TEXT"
+                    }
+                    st.success(f"✅ Resume '{resume_title_text}' added successfully (local storage)!")
+                    st.rerun()
             else:
                 st.warning("⚠️ Please enter some resume content")
 
@@ -187,11 +227,15 @@ with tab3:
     st.header("Tailor Resume")
     st.info("🤖 Tailor your resume to specific job descriptions using AI")
     
-    if not st.session_state.resumes:
+    # Load all resumes (database + session state)
+    db_resumes_tab3 = load_resumes_from_db()
+    all_resumes_tab3 = {**db_resumes_tab3, **st.session_state.resumes}
+    
+    if not all_resumes_tab3:
         st.warning("Please upload a resume first in the 'Upload Resume' tab")
     else:
         # Select resume to tailor
-        resume_options = {rid: data["title"] for rid, data in st.session_state.resumes.items()}
+        resume_options = {rid: data["title"] for rid, data in all_resumes_tab3.items()}
         selected_resume_id = st.selectbox(
             "Select resume to tailor",
             options=list(resume_options.keys()),
@@ -199,7 +243,7 @@ with tab3:
         )
         
         # Display selected resume content
-        selected_resume = st.session_state.resumes[selected_resume_id]
+        selected_resume = all_resumes_tab3[selected_resume_id]
         with st.expander("📄 Selected Resume", expanded=True):
             st.text_area(
                 "Resume Content",
@@ -209,25 +253,18 @@ with tab3:
                 key=f"tailor_resume_display_{selected_resume_id}"
             )
         
-        # Get API key from environment variables or Streamlit Secrets
+        # Get API key from Streamlit Secrets or environment variables
         api_key = get_api_key()
         
-        # Only show API configuration if not already set
         if not api_key:
-            with st.expander("🔑 API Configuration", expanded=True):
-                st.warning("⚠️ API Key not found. Please enter it below.")
-                api_key_input = st.text_input(
-                    "Enter your Google Gemini API Key",
-                    type="password",
-                    help="Get it from https://aistudio.google.com"
-                )
-                if api_key_input:
-                    api_key = api_key_input
-        else:
-            st.success("✅ API Key loaded from environment")
-        
-        if not api_key:
-            st.error("❌ Google Gemini API key required. Please configure it above.")
+            st.error("""
+            ❌ **Google Gemini API Key not configured!**
+            
+            Please add your API key to Streamlit Secrets:
+            1. Click **⋯ (menu)** → **Settings** → **Secrets**
+            2. Add: `GEMINI_API_KEY = "your_key_here"`
+            3. Get your key from https://aistudio.google.com
+            """)
         else:
             # Stack layout: job description on top, results below
             st.subheader("Job Description")
@@ -254,7 +291,7 @@ with tab3:
                         
                         model = genai.GenerativeModel("gemini-1.5-flash")
                         
-                        base_resume = st.session_state.resumes[selected_resume_id]["content"]
+                        base_resume = all_resumes_tab3[selected_resume_id]["content"]
                         
                         prompt = f"""You are an expert resume writer. Tailor the following base resume to match the job description provided.
 
@@ -292,15 +329,24 @@ Tailored Resume:"""
                             col_save, col_copy = st.columns(2)
                             with col_save:
                                 if st.button("💾 Save to Library", key="save_tailored", use_container_width=True):
-                                    resume_id = f"resume_tailored_{datetime.now().timestamp()}"
-                                    st.session_state.resumes[resume_id] = {
-                                        "title": f"{st.session_state.resumes[selected_resume_id]['title']} - Tailored",
-                                        "content": tailored_text,
-                                        "status": "PARSED",
-                                        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                        "source_type": "TEXT"
-                                    }
-                                    st.success("✅ Tailored resume saved to library!")
+                                    resume_id = save_resume_to_db(
+                                        title=f"{all_resumes_tab3[selected_resume_id]['title']} - Tailored",
+                                        content=tailored_text,
+                                        source_type="TEXT"
+                                    )
+                                    
+                                    if resume_id:
+                                        st.success("✅ Tailored resume saved to library!")
+                                    else:
+                                        # Fallback to session state
+                                        st.session_state.resumes[f"resume_tailored_{datetime.now().timestamp()}"] = {
+                                            "title": f"{all_resumes_tab3[selected_resume_id]['title']} - Tailored",
+                                            "content": tailored_text,
+                                            "status": "PARSED",
+                                            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                            "source_type": "TEXT"
+                                        }
+                                        st.success("✅ Tailored resume saved to library (local storage)!")
                                     st.rerun()
                             
                             with col_copy:
