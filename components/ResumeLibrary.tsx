@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { ArrowRight, Database, FileText } from 'lucide-react';
+import { Database, FileText } from 'lucide-react';
 import CreateResumeForm from '@/components/CreateResumeForm';
 import TailorResumePanel from '@/components/TailorResumePanel';
 
@@ -47,22 +47,26 @@ export default function ResumeLibrary({
       (resume) => resume.parseStatus === 'UPLOADED' || resume.parseStatus === 'PARSING',
     );
 
-    if (!hasActiveParsing || !databaseReady) {
+    if (!hasActiveParsing) {
       return;
     }
 
     const interval = window.setInterval(async () => {
-      const response = await fetch('/api/resumes');
-      if (!response.ok) {
-        return;
-      }
+      try {
+        const response = await fetch('/api/resumes');
+        if (!response.ok) {
+          return;
+        }
 
-      const data = await response.json();
-      setResumes(data.resumes);
-    }, 2500);
+        const data = await response.json();
+        setResumes(data.resumes);
+      } catch {
+        // Ignore transient polling failures during local development.
+      }
+    }, 1200);
 
     return () => window.clearInterval(interval);
-  }, [databaseReady, resumes]);
+  }, [resumes]);
 
   return (
     <div className="grid library-layout">
@@ -70,9 +74,7 @@ export default function ResumeLibrary({
         <div className="panel-header">
           <span className="badge">Resume library</span>
           <h2>Stored resumes</h2>
-          <p className="helper">
-            This tracer bullet proves the app shell, persistence wiring, and active resume selection.
-          </p>
+          <p className="helper">Upload a base resume, wait for parsing, then tailor it to a job description.</p>
         </div>
         <div className="panel-body">
           <div className="meta-row" style={{ marginBottom: 18 }}>
@@ -80,7 +82,7 @@ export default function ResumeLibrary({
               <Database size={14} style={{ marginRight: 6 }} />
               {stateLabel}
             </span>
-            <span>{databaseReady ? 'Remote persistence ready' : 'Using seed records until env is configured'}</span>
+            <span>{databaseReady ? 'Remote persistence ready' : 'Using local fallback storage'}</span>
           </div>
 
           {resumes.length > 0 ? (
@@ -125,8 +127,8 @@ export default function ResumeLibrary({
         <div className="panel">
           <div className="panel-header">
             <span className="badge">Create a resume</span>
-            <h2>Seed the workspace</h2>
-            <p className="helper">This form posts through the app API so the full stack is already talking end to end.</p>
+            <h2>Upload and parse</h2>
+            <p className="helper">Submit a PDF or pasted text and the backend will parse it in the background.</p>
           </div>
           <div className="panel-body">
             <CreateResumeForm
@@ -163,13 +165,7 @@ export default function ResumeLibrary({
                     background parser works.
                   </p>
                 ) : null}
-                <p className="helper">
-                  The next slice will turn this card into a real resume detail page with parsed structure review.
-                </p>
-                <button className="cta secondary" type="button">
-                  Open detail flow
-                  <ArrowRight size={16} />
-                </button>
+                <p className="helper">Use the panel below to paste a job description and generate a tailored text resume.</p>
               </>
             ) : (
               <div className="empty-state">

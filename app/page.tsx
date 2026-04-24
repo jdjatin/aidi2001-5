@@ -12,17 +12,16 @@ export default async function HomePage() {
     <main className="page-shell">
       <div className="page-frame">
         <section className="hero">
-          <span className="eyebrow">Issue #2 tracer bullet</span>
+          <span className="eyebrow">Resume Tailoring Workflow</span>
           <h1>Resume Variant Lab</h1>
           <p>
-            One base resume in, many ATS-friendly variants out. This first slice stands up the
-            full-stack app shell, remote-database wiring, and a minimal resume library so we have a
-            stable home for the rest of the workflow.
+            Upload a resume, let the app parse it, then tailor it to a job description and save the
+            generated result.
           </p>
           {missingEnvVars.length > 0 ? (
             <p className="helper">
-              Missing env: {missingEnvVars.join(', ')}. The UI falls back to seed records until you
-              plug in Supabase Postgres.
+              Missing env: {missingEnvVars.join(', ')}. The app will fall back to local storage
+              until the database is available.
             </p>
           ) : null}
         </section>

@@ -86,7 +86,7 @@ export default function CreateResumeForm({
           className="textarea"
           value={sourceText}
           onChange={(event) => setSourceText(event.target.value)}
-          placeholder="Paste resume text now, or leave this blank to wire PDF upload in the next slice."
+          placeholder="Paste resume text here, or leave this blank and upload a PDF instead."
         />
       </label>
 
@@ -101,13 +101,12 @@ export default function CreateResumeForm({
       </label>
 
       <p className="helper">
-        Use either pasted resume text or a PDF upload. If parsing fails, you can retry later with
-        text input as the fallback path.
+        Use either pasted resume text or a PDF upload. If PDF parsing fails, retry with pasted text.
       </p>
 
       <button className="cta" disabled={isSubmitting} type="submit">
         {isSubmitting ? <LoaderCircle size={18} className="animate-spin" /> : <Plus size={18} />}
-        Create resume
+        Parse resume
       </button>
 
       {message ? <p className="helper">{message}</p> : null}

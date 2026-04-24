@@ -2,6 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { getPrismaClient } from '@/lib/prisma';
 import { extractTextFromPdf, parseResumeText } from '@/lib/resume-parser';
+import { getLocalResumeById, updateLocalResume } from '@/lib/local-resume-store';
+import { isDatabaseConnectionError } from '@/lib/runtime-errors';
 
 const uploadDir = path.join(process.cwd(), 'storage', 'resumes');
 
@@ -31,32 +33,33 @@ export async function storeUploadedResumeFile(file: File, slug: string) {
 export async function processResumeParse(resumeId: string) {
   const prisma = getPrismaClient();
   if (!prisma) {
+    await processLocalResumeParse(resumeId);
     return;
   }
-
-  const resume = await prisma.resume.findUnique({
-    where: { id: resumeId },
-    select: {
-      id: true,
-      sourceType: true,
-      sourceText: true,
-      filePath: true,
-    },
-  });
-
-  if (!resume) {
-    return;
-  }
-
-  await prisma.resume.update({
-    where: { id: resumeId },
-    data: {
-      parseStatus: 'PARSING',
-      parseError: null,
-    },
-  });
 
   try {
+    const resume = await prisma.resume.findUnique({
+      where: { id: resumeId },
+      select: {
+        id: true,
+        sourceType: true,
+        sourceText: true,
+        filePath: true,
+      },
+    });
+
+    if (!resume) {
+      return;
+    }
+
+    await prisma.resume.update({
+      where: { id: resumeId },
+      data: {
+        parseStatus: 'PARSING',
+        parseError: null,
+      },
+    });
+
     const extractedText =
       resume.sourceType === 'TEXT'
         ? resume.sourceText || ''
@@ -74,12 +77,55 @@ export async function processResumeParse(resumeId: string) {
       },
     });
   } catch (error) {
-    await prisma.resume.update({
-      where: { id: resumeId },
-      data: {
-        parseStatus: 'FAILED',
-        parseError: error instanceof Error ? error.message : 'Resume parsing failed.',
-      },
+    if (isDatabaseConnectionError(error)) {
+      await processLocalResumeParse(resumeId);
+      return;
+    }
+
+    try {
+      await prisma.resume.update({
+        where: { id: resumeId },
+        data: {
+          parseStatus: 'FAILED',
+          parseError: error instanceof Error ? error.message : 'Resume parsing failed.',
+        },
+      });
+    } catch {
+      await processLocalResumeParse(resumeId);
+    }
+  }
+}
+
+async function processLocalResumeParse(resumeId: string) {
+  const resume = await getLocalResumeById(resumeId);
+
+  if (!resume) {
+    return;
+  }
+
+  await updateLocalResume(resumeId, {
+    parseStatus: 'PARSING',
+    parseError: null,
+  });
+
+  try {
+    const extractedText =
+      resume.sourceType === 'TEXT'
+        ? resume.sourceText || ''
+        : await extractTextFromPdf(await fs.readFile(resume.filePath!));
+
+    const parsed = parseResumeText(extractedText);
+
+    await updateLocalResume(resumeId, {
+      parseStatus: 'PARSED',
+      extractedText: parsed.extractedText,
+      structuredData: parsed.structuredData,
+      parseError: null,
+    });
+  } catch (error) {
+    await updateLocalResume(resumeId, {
+      parseStatus: 'FAILED',
+      parseError: error instanceof Error ? error.message : 'Resume parsing failed.',
     });
   }
 }

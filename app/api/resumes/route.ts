@@ -5,12 +5,26 @@ import {
   createResumeFromText,
   listResumes,
 } from '@/lib/resume-service';
+import { isDatabaseConnectionError } from '@/lib/runtime-errors';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const data = await listResumes();
-  return NextResponse.json(data);
+  try {
+    const data = await listResumes();
+    return NextResponse.json(data);
+  } catch (error) {
+    if (isDatabaseConnectionError(error)) {
+      return NextResponse.json(
+        {
+          error: 'Resume storage is temporarily unavailable.',
+        },
+        { status: 503 },
+      );
+    }
+
+    return NextResponse.json({ error: 'Unable to list resumes.' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -49,6 +63,13 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: error.issues[0]?.message || 'Invalid input.' },
         { status: 400 },
+      );
+    }
+
+    if (isDatabaseConnectionError(error)) {
+      return NextResponse.json(
+        { error: 'Resume storage is temporarily unavailable.' },
+        { status: 503 },
       );
     }
 

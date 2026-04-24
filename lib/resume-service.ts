@@ -6,6 +6,8 @@ import {
   scheduleResumeParse,
   storeUploadedResumeFile,
 } from '@/lib/resume-ingestion';
+import { createLocalResume, listLocalResumes } from '@/lib/local-resume-store';
+import { isDatabaseConnectionError } from '@/lib/runtime-errors';
 
 type ResumeRecord = {
   id: string;
@@ -51,35 +53,49 @@ export async function listResumes() {
   const prisma = getPrismaClient();
 
   if (!prisma) {
+    const localResumes = await listLocalResumes();
     return {
-      source: 'seed' as const,
-      resumes: seedResumes,
+      source: (localResumes.length > 0 ? 'local' : 'seed') as 'local' | 'seed',
+      resumes: [...localResumes, ...seedResumes],
       databaseReady: false,
     };
   }
 
-  const resumes = await prisma.resume.findMany({
-    orderBy: { createdAt: 'desc' },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      parseStatus: true,
-      sourceType: true,
-      originalFilename: true,
-      parseError: true,
-      createdAt: true,
-    },
-  });
+  try {
+    const resumes = await prisma.resume.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        parseStatus: true,
+        sourceType: true,
+        originalFilename: true,
+        parseError: true,
+        createdAt: true,
+      },
+    });
 
-  return {
-    source: 'database' as const,
-    resumes: resumes.map((resume) => ({
-      ...resume,
-      createdAt: resume.createdAt.toISOString(),
-    })),
-    databaseReady: true,
-  };
+    return {
+      source: 'database' as const,
+      resumes: resumes.map((resume) => ({
+        ...resume,
+        createdAt: resume.createdAt.toISOString(),
+      })),
+      databaseReady: true,
+    };
+  } catch (error) {
+    if (!isDatabaseConnectionError(error)) {
+      throw error;
+    }
+
+    const localResumes = await listLocalResumes();
+    return {
+      source: (localResumes.length > 0 ? 'local' : 'seed') as 'local' | 'seed',
+      resumes: [...localResumes, ...seedResumes],
+      databaseReady: false,
+    };
+  }
 }
 
 export async function createResumeFromText(input: unknown) {
@@ -87,46 +103,87 @@ export async function createResumeFromText(input: unknown) {
   const prisma = getPrismaClient();
 
   if (!prisma) {
+    const localResume = await createLocalResume({
+      title: parsed.title,
+      slug: createResumeSlug(parsed.title),
+      sourceType: 'TEXT',
+      originalFilename: parsed.originalFilename ?? null,
+      sourceText: parsed.sourceText || null,
+      parseStatus: 'UPLOADED',
+      parseError: null,
+      extractedText: null,
+      structuredData: null,
+    });
+
+    scheduleResumeParse(localResume.id);
+
     return {
-      created: false,
+      created: true,
       databaseReady: false,
-      message: 'Database is not configured yet. Add DATABASE_URL and DIRECT_URL to persist resumes.',
+      resume: localResume,
+      message: 'Saved locally because the database is not configured.',
     };
   }
 
   const slug = createResumeSlug(parsed.title);
+  try {
+    const resume = await prisma.resume.create({
+      data: {
+        title: parsed.title,
+        slug,
+        sourceType: 'TEXT',
+        originalFilename: parsed.originalFilename ?? null,
+        sourceText: parsed.sourceText || null,
+        parseStatus: 'UPLOADED',
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        parseStatus: true,
+        sourceType: true,
+        originalFilename: true,
+        parseError: true,
+        createdAt: true,
+      },
+    });
 
-  const resume = await prisma.resume.create({
-    data: {
+    scheduleResumeParse(resume.id);
+
+    return {
+      created: true,
+      databaseReady: true,
+      resume: {
+        ...resume,
+        createdAt: resume.createdAt.toISOString(),
+      },
+    };
+  } catch (error) {
+    if (!isDatabaseConnectionError(error)) {
+      throw error;
+    }
+
+    const localResume = await createLocalResume({
       title: parsed.title,
       slug,
       sourceType: 'TEXT',
       originalFilename: parsed.originalFilename ?? null,
       sourceText: parsed.sourceText || null,
       parseStatus: 'UPLOADED',
-    },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      parseStatus: true,
-      sourceType: true,
-      originalFilename: true,
-      parseError: true,
-      createdAt: true,
-    },
-  });
+      parseError: null,
+      extractedText: null,
+      structuredData: null,
+    });
 
-  scheduleResumeParse(resume.id);
+    scheduleResumeParse(localResume.id);
 
-  return {
-    created: true,
-    databaseReady: true,
-    resume: {
-      ...resume,
-      createdAt: resume.createdAt.toISOString(),
-    },
-  };
+    return {
+      created: true,
+      databaseReady: false,
+      resume: localResume,
+      message: 'Saved locally because the remote database is currently unavailable.',
+    };
+  }
 }
 
 export async function createResumeFromFile({
@@ -144,49 +201,94 @@ export async function createResumeFromFile({
   const prisma = getPrismaClient();
 
   if (!prisma) {
-    return {
-      created: false,
-      databaseReady: false,
-      message: 'Database is not configured yet. Add DATABASE_URL to persist resumes.',
-    };
-  }
-
-  const slug = createResumeSlug(parsed.title);
-  const stored = await storeUploadedResumeFile(file, slug);
-
-  const resume = await prisma.resume.create({
-    data: {
+    const slug = createResumeSlug(parsed.title);
+    const stored = await storeUploadedResumeFile(file, slug);
+    const localResume = await createLocalResume({
       title: parsed.title,
       slug,
       sourceType: 'PDF',
       originalFilename: file.name,
       filePath: stored.filePath,
+      sourceText: null,
       parseStatus: 'UPLOADED',
-    },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      parseStatus: true,
-      sourceType: true,
-      originalFilename: true,
-      parseError: true,
-      createdAt: true,
-    },
-  });
+      parseError: null,
+      extractedText: null,
+      structuredData: null,
+    });
 
-  scheduleResumeParse(resume.id);
+    scheduleResumeParse(localResume.id);
 
-  return {
-    created: true,
-    databaseReady: true,
-    resume: {
-      ...resume,
-      createdAt: resume.createdAt.toISOString(),
-    },
-  };
+    return {
+      created: true,
+      databaseReady: false,
+      resume: localResume,
+      message: 'Saved locally because the database is not configured.',
+    };
+  }
+
+  const slug = createResumeSlug(parsed.title);
+  const stored = await storeUploadedResumeFile(file, slug);
+  try {
+    const resume = await prisma.resume.create({
+      data: {
+        title: parsed.title,
+        slug,
+        sourceType: 'PDF',
+        originalFilename: file.name,
+        filePath: stored.filePath,
+        parseStatus: 'UPLOADED',
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        parseStatus: true,
+        sourceType: true,
+        originalFilename: true,
+        parseError: true,
+        createdAt: true,
+      },
+    });
+
+    scheduleResumeParse(resume.id);
+
+    return {
+      created: true,
+      databaseReady: true,
+      resume: {
+        ...resume,
+        createdAt: resume.createdAt.toISOString(),
+      },
+    };
+  } catch (error) {
+    if (!isDatabaseConnectionError(error)) {
+      throw error;
+    }
+
+    const localResume = await createLocalResume({
+      title: parsed.title,
+      slug,
+      sourceType: 'PDF',
+      originalFilename: file.name,
+      filePath: stored.filePath,
+      sourceText: null,
+      parseStatus: 'UPLOADED',
+      parseError: null,
+      extractedText: null,
+      structuredData: null,
+    });
+
+    scheduleResumeParse(localResume.id);
+
+    return {
+      created: true,
+      databaseReady: false,
+      resume: localResume,
+      message: 'Saved locally because the remote database is currently unavailable.',
+    };
+  }
 }
 
 export function getResumeLibraryStateLabel() {
-  return hasDatabaseConfig() ? 'Connected to database' : 'Seed mode until env is configured';
+  return hasDatabaseConfig() ? 'Connected to database' : 'Local fallback mode';
 }

@@ -17,6 +17,8 @@
     "@prisma/adapter-pg": "latest",
     "@prisma/client": "latest",
     "clsx": "latest",
+    "eslint-scope": "^9.1.2",
+    "espree": "^11.2.0",
     "lucide-react": "latest",
     "next": "latest",
     "pdf-parse": "^2.4.5",

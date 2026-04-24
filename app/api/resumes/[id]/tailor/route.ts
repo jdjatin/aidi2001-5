@@ -33,6 +33,19 @@ export async function POST(
       );
     }
 
+    if (error instanceof Error) {
+      if (error.message === 'Resume not found.') {
+        return NextResponse.json({ error: error.message }, { status: 404 });
+      }
+
+      if (
+        error.message === 'Resume must finish parsing before tailoring.' ||
+        error.message === 'No parsed resume text is available yet.'
+      ) {
+        return NextResponse.json({ error: error.message }, { status: 409 });
+      }
+    }
+
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Unable to tailor the resume.' },
       { status: 500 },

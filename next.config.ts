@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['127.0.0.1'],
-  serverExternalPackages: ['@google/genai'],
+  serverExternalPackages: ['@google/genai', 'pdf-parse', '@napi-rs/canvas'],
   turbopack: {
     root: path.resolve(__dirname),
   },

@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type Resume = $Result.DefaultSelection<Prisma.$ResumePayload>
+/**
+ * Model TailoredResume
+ * 
+ */
+export type TailoredResume = $Result.DefaultSelection<Prisma.$TailoredResumePayload>
 
 /**
  * Enums
@@ -168,6 +173,16 @@ export class PrismaClient<
     * ```
     */
   get resume(): Prisma.ResumeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tailoredResume`: Exposes CRUD operations for the **TailoredResume** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TailoredResumes
+    * const tailoredResumes = await prisma.tailoredResume.findMany()
+    * ```
+    */
+  get tailoredResume(): Prisma.TailoredResumeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -602,7 +617,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Resume: 'Resume'
+    Resume: 'Resume',
+    TailoredResume: 'TailoredResume'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -618,7 +634,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "resume"
+      modelProps: "resume" | "tailoredResume"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -693,6 +709,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ResumeCountArgs<ExtArgs>
             result: $Utils.Optional<ResumeCountAggregateOutputType> | number
+          }
+        }
+      }
+      TailoredResume: {
+        payload: Prisma.$TailoredResumePayload<ExtArgs>
+        fields: Prisma.TailoredResumeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TailoredResumeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TailoredResumeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          findFirst: {
+            args: Prisma.TailoredResumeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TailoredResumeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          findMany: {
+            args: Prisma.TailoredResumeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>[]
+          }
+          create: {
+            args: Prisma.TailoredResumeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          createMany: {
+            args: Prisma.TailoredResumeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TailoredResumeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>[]
+          }
+          delete: {
+            args: Prisma.TailoredResumeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          update: {
+            args: Prisma.TailoredResumeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          deleteMany: {
+            args: Prisma.TailoredResumeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TailoredResumeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TailoredResumeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>[]
+          }
+          upsert: {
+            args: Prisma.TailoredResumeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TailoredResumePayload>
+          }
+          aggregate: {
+            args: Prisma.TailoredResumeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTailoredResume>
+          }
+          groupBy: {
+            args: Prisma.TailoredResumeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TailoredResumeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TailoredResumeCountArgs<ExtArgs>
+            result: $Utils.Optional<TailoredResumeCountAggregateOutputType> | number
           }
         }
       }
@@ -805,6 +895,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     resume?: ResumeOmit
+    tailoredResume?: TailoredResumeOmit
   }
 
   /* Types for Logging */
@@ -879,6 +970,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type ResumeCountOutputType
+   */
+
+  export type ResumeCountOutputType = {
+    tailoredResumes: number
+  }
+
+  export type ResumeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tailoredResumes?: boolean | ResumeCountOutputTypeCountTailoredResumesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ResumeCountOutputType without action
+   */
+  export type ResumeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResumeCountOutputType
+     */
+    select?: ResumeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ResumeCountOutputType without action
+   */
+  export type ResumeCountOutputTypeCountTailoredResumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TailoredResumeWhereInput
+  }
 
 
   /**
@@ -1109,6 +1230,8 @@ export namespace Prisma {
     structuredData?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tailoredResumes?: boolean | Resume$tailoredResumesArgs<ExtArgs>
+    _count?: boolean | ResumeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resume"]>
 
   export type ResumeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1160,10 +1283,18 @@ export namespace Prisma {
   }
 
   export type ResumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "sourceType" | "originalFilename" | "filePath" | "parseStatus" | "sourceText" | "extractedText" | "parseError" | "structuredData" | "createdAt" | "updatedAt", ExtArgs["result"]["resume"]>
+  export type ResumeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tailoredResumes?: boolean | Resume$tailoredResumesArgs<ExtArgs>
+    _count?: boolean | ResumeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ResumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ResumeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ResumePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Resume"
-    objects: {}
+    objects: {
+      tailoredResumes: Prisma.$TailoredResumePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
@@ -1572,6 +1703,7 @@ export namespace Prisma {
    */
   export interface Prisma__ResumeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tailoredResumes<T extends Resume$tailoredResumesArgs<ExtArgs> = {}>(args?: Subset<T, Resume$tailoredResumesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1631,6 +1763,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * Filter, which Resume to fetch.
      */
     where: ResumeWhereUniqueInput
@@ -1649,6 +1785,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * Filter, which Resume to fetch.
      */
     where: ResumeWhereUniqueInput
@@ -1666,6 +1806,10 @@ export namespace Prisma {
      * Omit specific fields from the Resume
      */
     omit?: ResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
     /**
      * Filter, which Resume to fetch.
      */
@@ -1715,6 +1859,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * Filter, which Resume to fetch.
      */
     where?: ResumeWhereInput
@@ -1762,6 +1910,10 @@ export namespace Prisma {
      * Omit specific fields from the Resume
      */
     omit?: ResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
     /**
      * Filter, which Resumes to fetch.
      */
@@ -1811,6 +1963,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * The data needed to create a Resume.
      */
     data: XOR<ResumeCreateInput, ResumeUncheckedCreateInput>
@@ -1858,6 +2014,10 @@ export namespace Prisma {
      * Omit specific fields from the Resume
      */
     omit?: ResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
     /**
      * The data needed to update a Resume.
      */
@@ -1925,6 +2085,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * The filter to search for the Resume to update in case it exists.
      */
     where: ResumeWhereUniqueInput
@@ -1951,6 +2115,10 @@ export namespace Prisma {
      */
     omit?: ResumeOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+    /**
      * Filter which Resume to delete.
      */
     where: ResumeWhereUniqueInput
@@ -1971,6 +2139,30 @@ export namespace Prisma {
   }
 
   /**
+   * Resume.tailoredResumes
+   */
+  export type Resume$tailoredResumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    where?: TailoredResumeWhereInput
+    orderBy?: TailoredResumeOrderByWithRelationInput | TailoredResumeOrderByWithRelationInput[]
+    cursor?: TailoredResumeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TailoredResumeScalarFieldEnum | TailoredResumeScalarFieldEnum[]
+  }
+
+  /**
    * Resume without action
    */
   export type ResumeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1982,6 +2174,1117 @@ export namespace Prisma {
      * Omit specific fields from the Resume
      */
     omit?: ResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TailoredResume
+   */
+
+  export type AggregateTailoredResume = {
+    _count: TailoredResumeCountAggregateOutputType | null
+    _min: TailoredResumeMinAggregateOutputType | null
+    _max: TailoredResumeMaxAggregateOutputType | null
+  }
+
+  export type TailoredResumeMinAggregateOutputType = {
+    id: string | null
+    resumeId: string | null
+    jobDescription: string | null
+    tailoredText: string | null
+    provider: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TailoredResumeMaxAggregateOutputType = {
+    id: string | null
+    resumeId: string | null
+    jobDescription: string | null
+    tailoredText: string | null
+    provider: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TailoredResumeCountAggregateOutputType = {
+    id: number
+    resumeId: number
+    jobDescription: number
+    tailoredText: number
+    summaryOfChanges: number
+    highlightedKeywords: number
+    provider: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TailoredResumeMinAggregateInputType = {
+    id?: true
+    resumeId?: true
+    jobDescription?: true
+    tailoredText?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TailoredResumeMaxAggregateInputType = {
+    id?: true
+    resumeId?: true
+    jobDescription?: true
+    tailoredText?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TailoredResumeCountAggregateInputType = {
+    id?: true
+    resumeId?: true
+    jobDescription?: true
+    tailoredText?: true
+    summaryOfChanges?: true
+    highlightedKeywords?: true
+    provider?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TailoredResumeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TailoredResume to aggregate.
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TailoredResumes to fetch.
+     */
+    orderBy?: TailoredResumeOrderByWithRelationInput | TailoredResumeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TailoredResumeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TailoredResumes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TailoredResumes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TailoredResumes
+    **/
+    _count?: true | TailoredResumeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TailoredResumeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TailoredResumeMaxAggregateInputType
+  }
+
+  export type GetTailoredResumeAggregateType<T extends TailoredResumeAggregateArgs> = {
+        [P in keyof T & keyof AggregateTailoredResume]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTailoredResume[P]>
+      : GetScalarType<T[P], AggregateTailoredResume[P]>
+  }
+
+
+
+
+  export type TailoredResumeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TailoredResumeWhereInput
+    orderBy?: TailoredResumeOrderByWithAggregationInput | TailoredResumeOrderByWithAggregationInput[]
+    by: TailoredResumeScalarFieldEnum[] | TailoredResumeScalarFieldEnum
+    having?: TailoredResumeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TailoredResumeCountAggregateInputType | true
+    _min?: TailoredResumeMinAggregateInputType
+    _max?: TailoredResumeMaxAggregateInputType
+  }
+
+  export type TailoredResumeGroupByOutputType = {
+    id: string
+    resumeId: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonValue
+    highlightedKeywords: JsonValue
+    provider: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TailoredResumeCountAggregateOutputType | null
+    _min: TailoredResumeMinAggregateOutputType | null
+    _max: TailoredResumeMaxAggregateOutputType | null
+  }
+
+  type GetTailoredResumeGroupByPayload<T extends TailoredResumeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TailoredResumeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TailoredResumeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TailoredResumeGroupByOutputType[P]>
+            : GetScalarType<T[P], TailoredResumeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TailoredResumeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resumeId?: boolean
+    jobDescription?: boolean
+    tailoredText?: boolean
+    summaryOfChanges?: boolean
+    highlightedKeywords?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tailoredResume"]>
+
+  export type TailoredResumeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resumeId?: boolean
+    jobDescription?: boolean
+    tailoredText?: boolean
+    summaryOfChanges?: boolean
+    highlightedKeywords?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tailoredResume"]>
+
+  export type TailoredResumeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    resumeId?: boolean
+    jobDescription?: boolean
+    tailoredText?: boolean
+    summaryOfChanges?: boolean
+    highlightedKeywords?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tailoredResume"]>
+
+  export type TailoredResumeSelectScalar = {
+    id?: boolean
+    resumeId?: boolean
+    jobDescription?: boolean
+    tailoredText?: boolean
+    summaryOfChanges?: boolean
+    highlightedKeywords?: boolean
+    provider?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TailoredResumeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "resumeId" | "jobDescription" | "tailoredText" | "summaryOfChanges" | "highlightedKeywords" | "provider" | "createdAt" | "updatedAt", ExtArgs["result"]["tailoredResume"]>
+  export type TailoredResumeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }
+  export type TailoredResumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }
+  export type TailoredResumeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }
+
+  export type $TailoredResumePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TailoredResume"
+    objects: {
+      resume: Prisma.$ResumePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      resumeId: string
+      jobDescription: string
+      tailoredText: string
+      summaryOfChanges: Prisma.JsonValue
+      highlightedKeywords: Prisma.JsonValue
+      provider: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tailoredResume"]>
+    composites: {}
+  }
+
+  type TailoredResumeGetPayload<S extends boolean | null | undefined | TailoredResumeDefaultArgs> = $Result.GetResult<Prisma.$TailoredResumePayload, S>
+
+  type TailoredResumeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TailoredResumeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TailoredResumeCountAggregateInputType | true
+    }
+
+  export interface TailoredResumeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TailoredResume'], meta: { name: 'TailoredResume' } }
+    /**
+     * Find zero or one TailoredResume that matches the filter.
+     * @param {TailoredResumeFindUniqueArgs} args - Arguments to find a TailoredResume
+     * @example
+     * // Get one TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TailoredResumeFindUniqueArgs>(args: SelectSubset<T, TailoredResumeFindUniqueArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TailoredResume that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TailoredResumeFindUniqueOrThrowArgs} args - Arguments to find a TailoredResume
+     * @example
+     * // Get one TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TailoredResumeFindUniqueOrThrowArgs>(args: SelectSubset<T, TailoredResumeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TailoredResume that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeFindFirstArgs} args - Arguments to find a TailoredResume
+     * @example
+     * // Get one TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TailoredResumeFindFirstArgs>(args?: SelectSubset<T, TailoredResumeFindFirstArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TailoredResume that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeFindFirstOrThrowArgs} args - Arguments to find a TailoredResume
+     * @example
+     * // Get one TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TailoredResumeFindFirstOrThrowArgs>(args?: SelectSubset<T, TailoredResumeFindFirstOrThrowArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TailoredResumes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TailoredResumes
+     * const tailoredResumes = await prisma.tailoredResume.findMany()
+     * 
+     * // Get first 10 TailoredResumes
+     * const tailoredResumes = await prisma.tailoredResume.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tailoredResumeWithIdOnly = await prisma.tailoredResume.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TailoredResumeFindManyArgs>(args?: SelectSubset<T, TailoredResumeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TailoredResume.
+     * @param {TailoredResumeCreateArgs} args - Arguments to create a TailoredResume.
+     * @example
+     * // Create one TailoredResume
+     * const TailoredResume = await prisma.tailoredResume.create({
+     *   data: {
+     *     // ... data to create a TailoredResume
+     *   }
+     * })
+     * 
+     */
+    create<T extends TailoredResumeCreateArgs>(args: SelectSubset<T, TailoredResumeCreateArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TailoredResumes.
+     * @param {TailoredResumeCreateManyArgs} args - Arguments to create many TailoredResumes.
+     * @example
+     * // Create many TailoredResumes
+     * const tailoredResume = await prisma.tailoredResume.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TailoredResumeCreateManyArgs>(args?: SelectSubset<T, TailoredResumeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TailoredResumes and returns the data saved in the database.
+     * @param {TailoredResumeCreateManyAndReturnArgs} args - Arguments to create many TailoredResumes.
+     * @example
+     * // Create many TailoredResumes
+     * const tailoredResume = await prisma.tailoredResume.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TailoredResumes and only return the `id`
+     * const tailoredResumeWithIdOnly = await prisma.tailoredResume.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TailoredResumeCreateManyAndReturnArgs>(args?: SelectSubset<T, TailoredResumeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TailoredResume.
+     * @param {TailoredResumeDeleteArgs} args - Arguments to delete one TailoredResume.
+     * @example
+     * // Delete one TailoredResume
+     * const TailoredResume = await prisma.tailoredResume.delete({
+     *   where: {
+     *     // ... filter to delete one TailoredResume
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TailoredResumeDeleteArgs>(args: SelectSubset<T, TailoredResumeDeleteArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TailoredResume.
+     * @param {TailoredResumeUpdateArgs} args - Arguments to update one TailoredResume.
+     * @example
+     * // Update one TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TailoredResumeUpdateArgs>(args: SelectSubset<T, TailoredResumeUpdateArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TailoredResumes.
+     * @param {TailoredResumeDeleteManyArgs} args - Arguments to filter TailoredResumes to delete.
+     * @example
+     * // Delete a few TailoredResumes
+     * const { count } = await prisma.tailoredResume.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TailoredResumeDeleteManyArgs>(args?: SelectSubset<T, TailoredResumeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TailoredResumes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TailoredResumes
+     * const tailoredResume = await prisma.tailoredResume.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TailoredResumeUpdateManyArgs>(args: SelectSubset<T, TailoredResumeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TailoredResumes and returns the data updated in the database.
+     * @param {TailoredResumeUpdateManyAndReturnArgs} args - Arguments to update many TailoredResumes.
+     * @example
+     * // Update many TailoredResumes
+     * const tailoredResume = await prisma.tailoredResume.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TailoredResumes and only return the `id`
+     * const tailoredResumeWithIdOnly = await prisma.tailoredResume.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TailoredResumeUpdateManyAndReturnArgs>(args: SelectSubset<T, TailoredResumeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TailoredResume.
+     * @param {TailoredResumeUpsertArgs} args - Arguments to update or create a TailoredResume.
+     * @example
+     * // Update or create a TailoredResume
+     * const tailoredResume = await prisma.tailoredResume.upsert({
+     *   create: {
+     *     // ... data to create a TailoredResume
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TailoredResume we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TailoredResumeUpsertArgs>(args: SelectSubset<T, TailoredResumeUpsertArgs<ExtArgs>>): Prisma__TailoredResumeClient<$Result.GetResult<Prisma.$TailoredResumePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TailoredResumes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeCountArgs} args - Arguments to filter TailoredResumes to count.
+     * @example
+     * // Count the number of TailoredResumes
+     * const count = await prisma.tailoredResume.count({
+     *   where: {
+     *     // ... the filter for the TailoredResumes we want to count
+     *   }
+     * })
+    **/
+    count<T extends TailoredResumeCountArgs>(
+      args?: Subset<T, TailoredResumeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TailoredResumeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TailoredResume.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TailoredResumeAggregateArgs>(args: Subset<T, TailoredResumeAggregateArgs>): Prisma.PrismaPromise<GetTailoredResumeAggregateType<T>>
+
+    /**
+     * Group by TailoredResume.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TailoredResumeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TailoredResumeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TailoredResumeGroupByArgs['orderBy'] }
+        : { orderBy?: TailoredResumeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TailoredResumeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTailoredResumeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TailoredResume model
+   */
+  readonly fields: TailoredResumeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TailoredResume.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TailoredResumeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resume<T extends ResumeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResumeDefaultArgs<ExtArgs>>): Prisma__ResumeClient<$Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TailoredResume model
+   */
+  interface TailoredResumeFieldRefs {
+    readonly id: FieldRef<"TailoredResume", 'String'>
+    readonly resumeId: FieldRef<"TailoredResume", 'String'>
+    readonly jobDescription: FieldRef<"TailoredResume", 'String'>
+    readonly tailoredText: FieldRef<"TailoredResume", 'String'>
+    readonly summaryOfChanges: FieldRef<"TailoredResume", 'Json'>
+    readonly highlightedKeywords: FieldRef<"TailoredResume", 'Json'>
+    readonly provider: FieldRef<"TailoredResume", 'String'>
+    readonly createdAt: FieldRef<"TailoredResume", 'DateTime'>
+    readonly updatedAt: FieldRef<"TailoredResume", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TailoredResume findUnique
+   */
+  export type TailoredResumeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter, which TailoredResume to fetch.
+     */
+    where: TailoredResumeWhereUniqueInput
+  }
+
+  /**
+   * TailoredResume findUniqueOrThrow
+   */
+  export type TailoredResumeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter, which TailoredResume to fetch.
+     */
+    where: TailoredResumeWhereUniqueInput
+  }
+
+  /**
+   * TailoredResume findFirst
+   */
+  export type TailoredResumeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter, which TailoredResume to fetch.
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TailoredResumes to fetch.
+     */
+    orderBy?: TailoredResumeOrderByWithRelationInput | TailoredResumeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TailoredResumes.
+     */
+    cursor?: TailoredResumeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TailoredResumes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TailoredResumes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TailoredResumes.
+     */
+    distinct?: TailoredResumeScalarFieldEnum | TailoredResumeScalarFieldEnum[]
+  }
+
+  /**
+   * TailoredResume findFirstOrThrow
+   */
+  export type TailoredResumeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter, which TailoredResume to fetch.
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TailoredResumes to fetch.
+     */
+    orderBy?: TailoredResumeOrderByWithRelationInput | TailoredResumeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TailoredResumes.
+     */
+    cursor?: TailoredResumeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TailoredResumes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TailoredResumes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TailoredResumes.
+     */
+    distinct?: TailoredResumeScalarFieldEnum | TailoredResumeScalarFieldEnum[]
+  }
+
+  /**
+   * TailoredResume findMany
+   */
+  export type TailoredResumeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter, which TailoredResumes to fetch.
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TailoredResumes to fetch.
+     */
+    orderBy?: TailoredResumeOrderByWithRelationInput | TailoredResumeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TailoredResumes.
+     */
+    cursor?: TailoredResumeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TailoredResumes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TailoredResumes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TailoredResumes.
+     */
+    distinct?: TailoredResumeScalarFieldEnum | TailoredResumeScalarFieldEnum[]
+  }
+
+  /**
+   * TailoredResume create
+   */
+  export type TailoredResumeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TailoredResume.
+     */
+    data: XOR<TailoredResumeCreateInput, TailoredResumeUncheckedCreateInput>
+  }
+
+  /**
+   * TailoredResume createMany
+   */
+  export type TailoredResumeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TailoredResumes.
+     */
+    data: TailoredResumeCreateManyInput | TailoredResumeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TailoredResume createManyAndReturn
+   */
+  export type TailoredResumeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * The data used to create many TailoredResumes.
+     */
+    data: TailoredResumeCreateManyInput | TailoredResumeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TailoredResume update
+   */
+  export type TailoredResumeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TailoredResume.
+     */
+    data: XOR<TailoredResumeUpdateInput, TailoredResumeUncheckedUpdateInput>
+    /**
+     * Choose, which TailoredResume to update.
+     */
+    where: TailoredResumeWhereUniqueInput
+  }
+
+  /**
+   * TailoredResume updateMany
+   */
+  export type TailoredResumeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TailoredResumes.
+     */
+    data: XOR<TailoredResumeUpdateManyMutationInput, TailoredResumeUncheckedUpdateManyInput>
+    /**
+     * Filter which TailoredResumes to update
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * Limit how many TailoredResumes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TailoredResume updateManyAndReturn
+   */
+  export type TailoredResumeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * The data used to update TailoredResumes.
+     */
+    data: XOR<TailoredResumeUpdateManyMutationInput, TailoredResumeUncheckedUpdateManyInput>
+    /**
+     * Filter which TailoredResumes to update
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * Limit how many TailoredResumes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TailoredResume upsert
+   */
+  export type TailoredResumeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TailoredResume to update in case it exists.
+     */
+    where: TailoredResumeWhereUniqueInput
+    /**
+     * In case the TailoredResume found by the `where` argument doesn't exist, create a new TailoredResume with this data.
+     */
+    create: XOR<TailoredResumeCreateInput, TailoredResumeUncheckedCreateInput>
+    /**
+     * In case the TailoredResume was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TailoredResumeUpdateInput, TailoredResumeUncheckedUpdateInput>
+  }
+
+  /**
+   * TailoredResume delete
+   */
+  export type TailoredResumeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
+    /**
+     * Filter which TailoredResume to delete.
+     */
+    where: TailoredResumeWhereUniqueInput
+  }
+
+  /**
+   * TailoredResume deleteMany
+   */
+  export type TailoredResumeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TailoredResumes to delete
+     */
+    where?: TailoredResumeWhereInput
+    /**
+     * Limit how many TailoredResumes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TailoredResume without action
+   */
+  export type TailoredResumeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TailoredResume
+     */
+    select?: TailoredResumeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TailoredResume
+     */
+    omit?: TailoredResumeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TailoredResumeInclude<ExtArgs> | null
   }
 
 
@@ -2018,6 +3321,21 @@ export namespace Prisma {
   export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
 
 
+  export const TailoredResumeScalarFieldEnum: {
+    id: 'id',
+    resumeId: 'resumeId',
+    jobDescription: 'jobDescription',
+    tailoredText: 'tailoredText',
+    summaryOfChanges: 'summaryOfChanges',
+    highlightedKeywords: 'highlightedKeywords',
+    provider: 'provider',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TailoredResumeScalarFieldEnum = (typeof TailoredResumeScalarFieldEnum)[keyof typeof TailoredResumeScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -2032,6 +3350,13 @@ export namespace Prisma {
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -2154,6 +3479,7 @@ export namespace Prisma {
     structuredData?: JsonNullableFilter<"Resume">
     createdAt?: DateTimeFilter<"Resume"> | Date | string
     updatedAt?: DateTimeFilter<"Resume"> | Date | string
+    tailoredResumes?: TailoredResumeListRelationFilter
   }
 
   export type ResumeOrderByWithRelationInput = {
@@ -2170,6 +3496,7 @@ export namespace Prisma {
     structuredData?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tailoredResumes?: TailoredResumeOrderByRelationAggregateInput
   }
 
   export type ResumeWhereUniqueInput = Prisma.AtLeast<{
@@ -2189,6 +3516,7 @@ export namespace Prisma {
     structuredData?: JsonNullableFilter<"Resume">
     createdAt?: DateTimeFilter<"Resume"> | Date | string
     updatedAt?: DateTimeFilter<"Resume"> | Date | string
+    tailoredResumes?: TailoredResumeListRelationFilter
   }, "id" | "slug">
 
   export type ResumeOrderByWithAggregationInput = {
@@ -2229,6 +3557,81 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Resume"> | Date | string
   }
 
+  export type TailoredResumeWhereInput = {
+    AND?: TailoredResumeWhereInput | TailoredResumeWhereInput[]
+    OR?: TailoredResumeWhereInput[]
+    NOT?: TailoredResumeWhereInput | TailoredResumeWhereInput[]
+    id?: StringFilter<"TailoredResume"> | string
+    resumeId?: StringFilter<"TailoredResume"> | string
+    jobDescription?: StringFilter<"TailoredResume"> | string
+    tailoredText?: StringFilter<"TailoredResume"> | string
+    summaryOfChanges?: JsonFilter<"TailoredResume">
+    highlightedKeywords?: JsonFilter<"TailoredResume">
+    provider?: StringFilter<"TailoredResume"> | string
+    createdAt?: DateTimeFilter<"TailoredResume"> | Date | string
+    updatedAt?: DateTimeFilter<"TailoredResume"> | Date | string
+    resume?: XOR<ResumeScalarRelationFilter, ResumeWhereInput>
+  }
+
+  export type TailoredResumeOrderByWithRelationInput = {
+    id?: SortOrder
+    resumeId?: SortOrder
+    jobDescription?: SortOrder
+    tailoredText?: SortOrder
+    summaryOfChanges?: SortOrder
+    highlightedKeywords?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    resume?: ResumeOrderByWithRelationInput
+  }
+
+  export type TailoredResumeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TailoredResumeWhereInput | TailoredResumeWhereInput[]
+    OR?: TailoredResumeWhereInput[]
+    NOT?: TailoredResumeWhereInput | TailoredResumeWhereInput[]
+    resumeId?: StringFilter<"TailoredResume"> | string
+    jobDescription?: StringFilter<"TailoredResume"> | string
+    tailoredText?: StringFilter<"TailoredResume"> | string
+    summaryOfChanges?: JsonFilter<"TailoredResume">
+    highlightedKeywords?: JsonFilter<"TailoredResume">
+    provider?: StringFilter<"TailoredResume"> | string
+    createdAt?: DateTimeFilter<"TailoredResume"> | Date | string
+    updatedAt?: DateTimeFilter<"TailoredResume"> | Date | string
+    resume?: XOR<ResumeScalarRelationFilter, ResumeWhereInput>
+  }, "id">
+
+  export type TailoredResumeOrderByWithAggregationInput = {
+    id?: SortOrder
+    resumeId?: SortOrder
+    jobDescription?: SortOrder
+    tailoredText?: SortOrder
+    summaryOfChanges?: SortOrder
+    highlightedKeywords?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TailoredResumeCountOrderByAggregateInput
+    _max?: TailoredResumeMaxOrderByAggregateInput
+    _min?: TailoredResumeMinOrderByAggregateInput
+  }
+
+  export type TailoredResumeScalarWhereWithAggregatesInput = {
+    AND?: TailoredResumeScalarWhereWithAggregatesInput | TailoredResumeScalarWhereWithAggregatesInput[]
+    OR?: TailoredResumeScalarWhereWithAggregatesInput[]
+    NOT?: TailoredResumeScalarWhereWithAggregatesInput | TailoredResumeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TailoredResume"> | string
+    resumeId?: StringWithAggregatesFilter<"TailoredResume"> | string
+    jobDescription?: StringWithAggregatesFilter<"TailoredResume"> | string
+    tailoredText?: StringWithAggregatesFilter<"TailoredResume"> | string
+    summaryOfChanges?: JsonWithAggregatesFilter<"TailoredResume">
+    highlightedKeywords?: JsonWithAggregatesFilter<"TailoredResume">
+    provider?: StringWithAggregatesFilter<"TailoredResume"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TailoredResume"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TailoredResume"> | Date | string
+  }
+
   export type ResumeCreateInput = {
     id?: string
     title: string
@@ -2243,6 +3646,7 @@ export namespace Prisma {
     structuredData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    tailoredResumes?: TailoredResumeCreateNestedManyWithoutResumeInput
   }
 
   export type ResumeUncheckedCreateInput = {
@@ -2259,6 +3663,7 @@ export namespace Prisma {
     structuredData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    tailoredResumes?: TailoredResumeUncheckedCreateNestedManyWithoutResumeInput
   }
 
   export type ResumeUpdateInput = {
@@ -2275,6 +3680,7 @@ export namespace Prisma {
     structuredData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tailoredResumes?: TailoredResumeUpdateManyWithoutResumeNestedInput
   }
 
   export type ResumeUncheckedUpdateInput = {
@@ -2291,6 +3697,7 @@ export namespace Prisma {
     structuredData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tailoredResumes?: TailoredResumeUncheckedUpdateManyWithoutResumeNestedInput
   }
 
   export type ResumeCreateManyInput = {
@@ -2337,6 +3744,89 @@ export namespace Prisma {
     extractedText?: NullableStringFieldUpdateOperationsInput | string | null
     parseError?: NullableStringFieldUpdateOperationsInput | string | null
     structuredData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeCreateInput = {
+    id?: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resume: ResumeCreateNestedOneWithoutTailoredResumesInput
+  }
+
+  export type TailoredResumeUncheckedCreateInput = {
+    id?: string
+    resumeId: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TailoredResumeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resume?: ResumeUpdateOneRequiredWithoutTailoredResumesNestedInput
+  }
+
+  export type TailoredResumeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resumeId?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeCreateManyInput = {
+    id?: string
+    resumeId: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TailoredResumeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resumeId?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2412,9 +3902,19 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type TailoredResumeListRelationFilter = {
+    every?: TailoredResumeWhereInput
+    some?: TailoredResumeWhereInput
+    none?: TailoredResumeWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type TailoredResumeOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ResumeCountOrderByAggregateInput = {
@@ -2548,6 +4048,106 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ResumeScalarRelationFilter = {
+    is?: ResumeWhereInput
+    isNot?: ResumeWhereInput
+  }
+
+  export type TailoredResumeCountOrderByAggregateInput = {
+    id?: SortOrder
+    resumeId?: SortOrder
+    jobDescription?: SortOrder
+    tailoredText?: SortOrder
+    summaryOfChanges?: SortOrder
+    highlightedKeywords?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TailoredResumeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    resumeId?: SortOrder
+    jobDescription?: SortOrder
+    tailoredText?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TailoredResumeMinOrderByAggregateInput = {
+    id?: SortOrder
+    resumeId?: SortOrder
+    jobDescription?: SortOrder
+    tailoredText?: SortOrder
+    provider?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type TailoredResumeCreateNestedManyWithoutResumeInput = {
+    create?: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput> | TailoredResumeCreateWithoutResumeInput[] | TailoredResumeUncheckedCreateWithoutResumeInput[]
+    connectOrCreate?: TailoredResumeCreateOrConnectWithoutResumeInput | TailoredResumeCreateOrConnectWithoutResumeInput[]
+    createMany?: TailoredResumeCreateManyResumeInputEnvelope
+    connect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+  }
+
+  export type TailoredResumeUncheckedCreateNestedManyWithoutResumeInput = {
+    create?: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput> | TailoredResumeCreateWithoutResumeInput[] | TailoredResumeUncheckedCreateWithoutResumeInput[]
+    connectOrCreate?: TailoredResumeCreateOrConnectWithoutResumeInput | TailoredResumeCreateOrConnectWithoutResumeInput[]
+    createMany?: TailoredResumeCreateManyResumeInputEnvelope
+    connect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+  }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
@@ -2563,6 +4163,48 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type TailoredResumeUpdateManyWithoutResumeNestedInput = {
+    create?: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput> | TailoredResumeCreateWithoutResumeInput[] | TailoredResumeUncheckedCreateWithoutResumeInput[]
+    connectOrCreate?: TailoredResumeCreateOrConnectWithoutResumeInput | TailoredResumeCreateOrConnectWithoutResumeInput[]
+    upsert?: TailoredResumeUpsertWithWhereUniqueWithoutResumeInput | TailoredResumeUpsertWithWhereUniqueWithoutResumeInput[]
+    createMany?: TailoredResumeCreateManyResumeInputEnvelope
+    set?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    disconnect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    delete?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    connect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    update?: TailoredResumeUpdateWithWhereUniqueWithoutResumeInput | TailoredResumeUpdateWithWhereUniqueWithoutResumeInput[]
+    updateMany?: TailoredResumeUpdateManyWithWhereWithoutResumeInput | TailoredResumeUpdateManyWithWhereWithoutResumeInput[]
+    deleteMany?: TailoredResumeScalarWhereInput | TailoredResumeScalarWhereInput[]
+  }
+
+  export type TailoredResumeUncheckedUpdateManyWithoutResumeNestedInput = {
+    create?: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput> | TailoredResumeCreateWithoutResumeInput[] | TailoredResumeUncheckedCreateWithoutResumeInput[]
+    connectOrCreate?: TailoredResumeCreateOrConnectWithoutResumeInput | TailoredResumeCreateOrConnectWithoutResumeInput[]
+    upsert?: TailoredResumeUpsertWithWhereUniqueWithoutResumeInput | TailoredResumeUpsertWithWhereUniqueWithoutResumeInput[]
+    createMany?: TailoredResumeCreateManyResumeInputEnvelope
+    set?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    disconnect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    delete?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    connect?: TailoredResumeWhereUniqueInput | TailoredResumeWhereUniqueInput[]
+    update?: TailoredResumeUpdateWithWhereUniqueWithoutResumeInput | TailoredResumeUpdateWithWhereUniqueWithoutResumeInput[]
+    updateMany?: TailoredResumeUpdateManyWithWhereWithoutResumeInput | TailoredResumeUpdateManyWithWhereWithoutResumeInput[]
+    deleteMany?: TailoredResumeScalarWhereInput | TailoredResumeScalarWhereInput[]
+  }
+
+  export type ResumeCreateNestedOneWithoutTailoredResumesInput = {
+    create?: XOR<ResumeCreateWithoutTailoredResumesInput, ResumeUncheckedCreateWithoutTailoredResumesInput>
+    connectOrCreate?: ResumeCreateOrConnectWithoutTailoredResumesInput
+    connect?: ResumeWhereUniqueInput
+  }
+
+  export type ResumeUpdateOneRequiredWithoutTailoredResumesNestedInput = {
+    create?: XOR<ResumeCreateWithoutTailoredResumesInput, ResumeUncheckedCreateWithoutTailoredResumesInput>
+    connectOrCreate?: ResumeCreateOrConnectWithoutTailoredResumesInput
+    upsert?: ResumeUpsertWithoutTailoredResumesInput
+    connect?: ResumeWhereUniqueInput
+    update?: XOR<XOR<ResumeUpdateToOneWithWhereWithoutTailoredResumesInput, ResumeUpdateWithoutTailoredResumesInput>, ResumeUncheckedUpdateWithoutTailoredResumesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2712,6 +4354,216 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type TailoredResumeCreateWithoutResumeInput = {
+    id?: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TailoredResumeUncheckedCreateWithoutResumeInput = {
+    id?: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TailoredResumeCreateOrConnectWithoutResumeInput = {
+    where: TailoredResumeWhereUniqueInput
+    create: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput>
+  }
+
+  export type TailoredResumeCreateManyResumeInputEnvelope = {
+    data: TailoredResumeCreateManyResumeInput | TailoredResumeCreateManyResumeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TailoredResumeUpsertWithWhereUniqueWithoutResumeInput = {
+    where: TailoredResumeWhereUniqueInput
+    update: XOR<TailoredResumeUpdateWithoutResumeInput, TailoredResumeUncheckedUpdateWithoutResumeInput>
+    create: XOR<TailoredResumeCreateWithoutResumeInput, TailoredResumeUncheckedCreateWithoutResumeInput>
+  }
+
+  export type TailoredResumeUpdateWithWhereUniqueWithoutResumeInput = {
+    where: TailoredResumeWhereUniqueInput
+    data: XOR<TailoredResumeUpdateWithoutResumeInput, TailoredResumeUncheckedUpdateWithoutResumeInput>
+  }
+
+  export type TailoredResumeUpdateManyWithWhereWithoutResumeInput = {
+    where: TailoredResumeScalarWhereInput
+    data: XOR<TailoredResumeUpdateManyMutationInput, TailoredResumeUncheckedUpdateManyWithoutResumeInput>
+  }
+
+  export type TailoredResumeScalarWhereInput = {
+    AND?: TailoredResumeScalarWhereInput | TailoredResumeScalarWhereInput[]
+    OR?: TailoredResumeScalarWhereInput[]
+    NOT?: TailoredResumeScalarWhereInput | TailoredResumeScalarWhereInput[]
+    id?: StringFilter<"TailoredResume"> | string
+    resumeId?: StringFilter<"TailoredResume"> | string
+    jobDescription?: StringFilter<"TailoredResume"> | string
+    tailoredText?: StringFilter<"TailoredResume"> | string
+    summaryOfChanges?: JsonFilter<"TailoredResume">
+    highlightedKeywords?: JsonFilter<"TailoredResume">
+    provider?: StringFilter<"TailoredResume"> | string
+    createdAt?: DateTimeFilter<"TailoredResume"> | Date | string
+    updatedAt?: DateTimeFilter<"TailoredResume"> | Date | string
+  }
+
+  export type ResumeCreateWithoutTailoredResumesInput = {
+    id?: string
+    title: string
+    slug: string
+    sourceType: string
+    originalFilename?: string | null
+    filePath?: string | null
+    parseStatus?: $Enums.ResumeParseStatus
+    sourceText?: string | null
+    extractedText?: string | null
+    parseError?: string | null
+    structuredData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResumeUncheckedCreateWithoutTailoredResumesInput = {
+    id?: string
+    title: string
+    slug: string
+    sourceType: string
+    originalFilename?: string | null
+    filePath?: string | null
+    parseStatus?: $Enums.ResumeParseStatus
+    sourceText?: string | null
+    extractedText?: string | null
+    parseError?: string | null
+    structuredData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResumeCreateOrConnectWithoutTailoredResumesInput = {
+    where: ResumeWhereUniqueInput
+    create: XOR<ResumeCreateWithoutTailoredResumesInput, ResumeUncheckedCreateWithoutTailoredResumesInput>
+  }
+
+  export type ResumeUpsertWithoutTailoredResumesInput = {
+    update: XOR<ResumeUpdateWithoutTailoredResumesInput, ResumeUncheckedUpdateWithoutTailoredResumesInput>
+    create: XOR<ResumeCreateWithoutTailoredResumesInput, ResumeUncheckedCreateWithoutTailoredResumesInput>
+    where?: ResumeWhereInput
+  }
+
+  export type ResumeUpdateToOneWithWhereWithoutTailoredResumesInput = {
+    where?: ResumeWhereInput
+    data: XOR<ResumeUpdateWithoutTailoredResumesInput, ResumeUncheckedUpdateWithoutTailoredResumesInput>
+  }
+
+  export type ResumeUpdateWithoutTailoredResumesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    originalFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    parseStatus?: EnumResumeParseStatusFieldUpdateOperationsInput | $Enums.ResumeParseStatus
+    sourceText?: NullableStringFieldUpdateOperationsInput | string | null
+    extractedText?: NullableStringFieldUpdateOperationsInput | string | null
+    parseError?: NullableStringFieldUpdateOperationsInput | string | null
+    structuredData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResumeUncheckedUpdateWithoutTailoredResumesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sourceType?: StringFieldUpdateOperationsInput | string
+    originalFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    parseStatus?: EnumResumeParseStatusFieldUpdateOperationsInput | $Enums.ResumeParseStatus
+    sourceText?: NullableStringFieldUpdateOperationsInput | string | null
+    extractedText?: NullableStringFieldUpdateOperationsInput | string | null
+    parseError?: NullableStringFieldUpdateOperationsInput | string | null
+    structuredData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeCreateManyResumeInput = {
+    id?: string
+    jobDescription: string
+    tailoredText: string
+    summaryOfChanges: JsonNullValueInput | InputJsonValue
+    highlightedKeywords: JsonNullValueInput | InputJsonValue
+    provider: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TailoredResumeUpdateWithoutResumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeUncheckedUpdateWithoutResumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TailoredResumeUncheckedUpdateManyWithoutResumeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobDescription?: StringFieldUpdateOperationsInput | string
+    tailoredText?: StringFieldUpdateOperationsInput | string
+    summaryOfChanges?: JsonNullValueInput | InputJsonValue
+    highlightedKeywords?: JsonNullValueInput | InputJsonValue
+    provider?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

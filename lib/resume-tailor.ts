@@ -2,6 +2,10 @@ import { z } from 'zod';
 import { getGeminiClient } from '@/lib/gemini';
 import { generateWithRetry } from '@/lib/gemini-retry';
 import { getPrismaClient } from '@/lib/prisma';
+import { getLocalResumeById } from '@/lib/local-resume-store';
+import { generateTailoredResumeFallback } from '@/lib/local-tailor';
+import { isDatabaseConnectionError, isGeminiUnavailableError } from '@/lib/runtime-errors';
+import { persistTailoredResume } from '@/lib/tailored-resume-store';
 
 const tailorResultSchema = z.object({
   tailored_resume: z.string().min(50),
@@ -17,26 +21,8 @@ export async function generateTailoredResume({
   jobDescription: string;
 }) {
   const prisma = getPrismaClient();
-  if (!prisma) {
-    throw new Error('Database is not configured.');
-  }
-
   const ai = await getGeminiClient();
-  if (!ai) {
-    throw new Error('GEMINI_API_KEY is not configured.');
-  }
-
-  const resume = await prisma.resume.findUnique({
-    where: { id: resumeId },
-    select: {
-      id: true,
-      title: true,
-      parseStatus: true,
-      extractedText: true,
-      sourceText: true,
-      structuredData: true,
-    },
-  });
+  const resume = await getResume(resumeId, prisma);
 
   if (!resume) {
     throw new Error('Resume not found.');
@@ -74,6 +60,56 @@ Job description:
 ${jobDescription}
 `;
 
+  const generated = !ai
+    ? {
+        provider: 'fallback' as const,
+        result: tailorResultSchema.parse(
+          generateTailoredResumeFallback({
+            resumeText,
+            jobDescription,
+            resumeTitle: resume.title,
+          }),
+        ),
+      }
+    : await generateModelResult({
+        ai,
+        prompt,
+        resume,
+        resumeText,
+        jobDescription,
+      });
+
+  const persisted = await persistTailoredResume({
+    resumeId,
+    jobDescription,
+    tailoredText: generated.result.tailored_resume,
+    summaryOfChanges: generated.result.summary_of_changes,
+    highlightedKeywords: generated.result.highlighted_keywords,
+    provider: generated.provider,
+  });
+
+  return {
+    resumeTitle: resume.title,
+    ...generated.result,
+    tailoredResumeId: persisted.recordId,
+    savedTo: persisted.storage,
+    savedAt: persisted.createdAt,
+  };
+}
+
+async function generateModelResult({
+  ai,
+  prompt,
+  resume,
+  resumeText,
+  jobDescription,
+}: {
+  ai: NonNullable<Awaited<ReturnType<typeof getGeminiClient>>>;
+  prompt: string;
+  resume: { title: string };
+  resumeText: string;
+  jobDescription: string;
+}) {
   let response;
   try {
     response = await generateWithRetry(() =>
@@ -86,17 +122,51 @@ ${jobDescription}
       }),
     );
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    if (message.includes('"code":503') || message.includes('UNAVAILABLE')) {
-      throw new Error('Gemini is busy right now. Please retry in a moment.');
+    if (isGeminiUnavailableError(error)) {
+      return {
+        provider: 'fallback' as const,
+        result: tailorResultSchema.parse(
+          generateTailoredResumeFallback({
+            resumeText,
+            jobDescription,
+            resumeTitle: resume.title,
+          }),
+        ),
+      };
     }
 
     throw error;
   }
 
-  const rawText = response.text;
+  const rawText = response.text ?? '';
   return {
-    resumeTitle: resume.title,
-    ...tailorResultSchema.parse(JSON.parse(rawText)),
+    provider: 'gemini-2.5-flash' as const,
+    result: tailorResultSchema.parse(JSON.parse(rawText)),
   };
+}
+
+async function getResume(resumeId: string, prisma: ReturnType<typeof getPrismaClient>) {
+  if (!prisma) {
+    return getLocalResumeById(resumeId);
+  }
+
+  try {
+    return await prisma.resume.findUnique({
+      where: { id: resumeId },
+      select: {
+        id: true,
+        title: true,
+        parseStatus: true,
+        extractedText: true,
+        sourceText: true,
+        structuredData: true,
+      },
+    });
+  } catch (error) {
+    if (!isDatabaseConnectionError(error)) {
+      throw error;
+    }
+
+    return getLocalResumeById(resumeId);
+  }
 }

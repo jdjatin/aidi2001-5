@@ -1,3 +1,4 @@
+import 'pdf-parse/worker';
 import { PDFParse } from 'pdf-parse';
 
 type SectionKey = 'summary' | 'skills' | 'experience' | 'projects' | 'education' | 'other';

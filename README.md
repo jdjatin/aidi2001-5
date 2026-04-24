@@ -1,29 +1,37 @@
-# Resume Variant Lab - Streamlit Edition
+# Resume Variant Lab
 
 One base resume in, many ATS-friendly variants out.
 
-This is a Streamlit-based web application for uploading, managing, and tailoring resumes using AI-powered suggestions.
+This is a Next.js application for uploading resumes, parsing them, tailoring them to job descriptions with Gemini, and saving the tailored output.
 
 ## Features
 
-- 📚 **Resume Library** - Manage your resume collection
-- ⬆️ **Resume Upload** - Upload PDFs or paste text
-- ✨ **AI Tailoring** - Tailor resumes to job descriptions using Google Gemini
+- Resume upload from pasted text or PDF
+- Async resume parsing
+- Gemini-powered tailoring
+- Tailored resume persistence in PostgreSQL
 
 ## Quick Start
 
 ```bash
-bash run_local.sh
+npm install
+npm run db:generate
+npm run dev
 ```
 
-## Deploy to Cloud
+## Environment
 
-See `STREAMLIT_DEPLOYMENT.md` for deployment instructions to Streamlit Cloud.
+- `DATABASE_URL`
+- `GEMINI_API_KEY` or `GOOGLE_API_KEY`
 
-## Requirements
+## Useful Commands
 
-- Python 3.8+
-- Google Gemini API key (get it from https://aistudio.google.com)
+```bash
+npm run dev
+npm run build
+npm test
+npm run db:push
+```
 
 ## License
 

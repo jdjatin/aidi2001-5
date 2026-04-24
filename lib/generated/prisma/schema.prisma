@@ -28,4 +28,20 @@ model Resume {
   structuredData   Json?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
+  tailoredResumes  TailoredResume[]
+}
+
+model TailoredResume {
+  id                  String   @id @default(cuid())
+  resumeId            String
+  jobDescription      String
+  tailoredText        String
+  summaryOfChanges    Json
+  highlightedKeywords Json
+  provider            String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  resume              Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([resumeId, createdAt])
 }

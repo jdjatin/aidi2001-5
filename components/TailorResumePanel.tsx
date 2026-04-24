@@ -14,6 +14,9 @@ type TailorResult = {
   tailored_resume: string;
   summary_of_changes: string[];
   highlighted_keywords: string[];
+  tailoredResumeId: string;
+  savedTo: 'database' | 'local';
+  savedAt: string;
 };
 
 export default function TailorResumePanel({
@@ -123,6 +126,10 @@ export default function TailorResumePanel({
                       ))}
                     </div>
                   </div>
+
+                  <p className="helper" style={{ marginBottom: 0 }}>
+                    Saved to {result.savedTo} at {new Date(result.savedAt).toLocaleString()}.
+                  </p>
                 </div>
               </div>
             ) : null}
