@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import { getPrismaClient } from '@/lib/prisma';
 import { hasDatabaseConfig } from '@/lib/env';
+import { parseUploadedPdfFile } from '@/lib/resume-parser';
 import {
   createResumeSlug,
   scheduleResumeParse,
-  storeUploadedResumeFile,
 } from '@/lib/resume-ingestion';
 import { createLocalResume, listLocalResumes } from '@/lib/local-resume-store';
 import { isDatabaseConnectionError } from '@/lib/runtime-errors';
@@ -199,24 +199,22 @@ export async function createResumeFromFile({
     sourceText: '',
   });
   const prisma = getPrismaClient();
+  const parsedPdf = await parseUploadedPdfFile(file);
 
   if (!prisma) {
     const slug = createResumeSlug(parsed.title);
-    const stored = await storeUploadedResumeFile(file, slug);
     const localResume = await createLocalResume({
       title: parsed.title,
       slug,
       sourceType: 'PDF',
       originalFilename: file.name,
-      filePath: stored.filePath,
+      filePath: null,
       sourceText: null,
-      parseStatus: 'UPLOADED',
+      parseStatus: 'PARSED',
       parseError: null,
-      extractedText: null,
-      structuredData: null,
+      extractedText: parsedPdf.extractedText,
+      structuredData: parsedPdf.structuredData,
     });
-
-    scheduleResumeParse(localResume.id);
 
     return {
       created: true,
@@ -227,7 +225,6 @@ export async function createResumeFromFile({
   }
 
   const slug = createResumeSlug(parsed.title);
-  const stored = await storeUploadedResumeFile(file, slug);
   try {
     const resume = await prisma.resume.create({
       data: {
@@ -235,8 +232,11 @@ export async function createResumeFromFile({
         slug,
         sourceType: 'PDF',
         originalFilename: file.name,
-        filePath: stored.filePath,
-        parseStatus: 'UPLOADED',
+        filePath: null,
+        parseStatus: 'PARSED',
+        extractedText: parsedPdf.extractedText,
+        structuredData: parsedPdf.structuredData,
+        parseError: null,
       },
       select: {
         id: true,
@@ -249,8 +249,6 @@ export async function createResumeFromFile({
         createdAt: true,
       },
     });
-
-    scheduleResumeParse(resume.id);
 
     return {
       created: true,
@@ -270,15 +268,13 @@ export async function createResumeFromFile({
       slug,
       sourceType: 'PDF',
       originalFilename: file.name,
-      filePath: stored.filePath,
+      filePath: null,
       sourceText: null,
-      parseStatus: 'UPLOADED',
+      parseStatus: 'PARSED',
       parseError: null,
-      extractedText: null,
-      structuredData: null,
+      extractedText: parsedPdf.extractedText,
+      structuredData: parsedPdf.structuredData,
     });
-
-    scheduleResumeParse(localResume.id);
 
     return {
       created: true,

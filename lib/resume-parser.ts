@@ -85,6 +85,12 @@ export async function extractTextFromPdf(buffer: Buffer) {
   }
 }
 
+export async function parseUploadedPdfFile(file: File) {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const extractedText = await extractTextFromPdf(buffer);
+  return parseResumeText(extractedText);
+}
+
 export function parseResumeText(text: string) {
   const cleaned = normalizeText(text);
   if (!cleaned) {
