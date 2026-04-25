@@ -11,12 +11,18 @@ type Resume = {
 
 type TailorResult = {
   resumeTitle: string;
+  baseline: TailorVariant;
+  current: TailorVariant;
+};
+
+type TailorVariant = {
   tailored_resume: string;
   summary_of_changes: string[];
   highlighted_keywords: string[];
   tailoredResumeId: string;
   savedTo: 'database' | 'local';
   savedAt: string;
+  provider: string;
 };
 
 export default function TailorResumePanel({
@@ -102,24 +108,24 @@ export default function TailorResumePanel({
             {result ? (
               <div className="grid" style={{ gap: 16 }}>
                 <div className="resume-output">
-                  <h3 style={{ marginTop: 0 }}>Tailored resume</h3>
-                  <pre className="resume-pre">{result.tailored_resume}</pre>
+                  <h3 style={{ marginTop: 0 }}>Current system output</h3>
+                  <pre className="resume-pre">{result.current.tailored_resume}</pre>
                 </div>
 
                 <div className="grid" style={{ gap: 12 }}>
                   <div>
-                    <h4 style={{ marginBottom: 8 }}>What changed</h4>
+                    <h4 style={{ marginBottom: 8 }}>Current system changes</h4>
                     <ul className="plain-list">
-                      {result.summary_of_changes.map((item) => (
+                      {result.current.summary_of_changes.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
                   </div>
 
                   <div>
-                    <h4 style={{ marginBottom: 8 }}>Highlighted keywords</h4>
+                    <h4 style={{ marginBottom: 8 }}>Current system keywords</h4>
                     <div className="meta-row">
-                      {result.highlighted_keywords.map((item) => (
+                      {result.current.highlighted_keywords.map((item) => (
                         <span className="badge" key={item}>
                           {item}
                         </span>
@@ -128,7 +134,40 @@ export default function TailorResumePanel({
                   </div>
 
                   <p className="helper" style={{ marginBottom: 0 }}>
-                    Saved to {result.savedTo} at {new Date(result.savedAt).toLocaleString()}.
+                    Current output saved to {result.current.savedTo} at{' '}
+                    {new Date(result.current.savedAt).toLocaleString()}.
+                  </p>
+                </div>
+
+                <div className="resume-output">
+                  <h3 style={{ marginTop: 0 }}>Baseline output</h3>
+                  <pre className="resume-pre">{result.baseline.tailored_resume}</pre>
+                </div>
+
+                <div className="grid" style={{ gap: 12 }}>
+                  <div>
+                    <h4 style={{ marginBottom: 8 }}>Baseline changes</h4>
+                    <ul className="plain-list">
+                      {result.baseline.summary_of_changes.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 style={{ marginBottom: 8 }}>Baseline keywords</h4>
+                    <div className="meta-row">
+                      {result.baseline.highlighted_keywords.map((item) => (
+                        <span className="badge" key={item}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="helper" style={{ marginBottom: 0 }}>
+                    Baseline output saved to {result.baseline.savedTo} at{' '}
+                    {new Date(result.baseline.savedAt).toLocaleString()}.
                   </p>
                 </div>
               </div>

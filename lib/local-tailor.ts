@@ -5,7 +5,7 @@ function splitLines(text: string) {
     .filter(Boolean);
 }
 
-function extractKeywords(jobDescription: string) {
+export function extractKeywords(jobDescription: string) {
   const stopWords = new Set([
     'about',
     'after',
@@ -63,7 +63,41 @@ function highlightRelevantLines(resumeText: string, keywords: string[]) {
   return matching.length > 0 ? matching : lines.slice(0, 8);
 }
 
-export function generateTailoredResumeFallback({
+export function generateBaselineTailoredResume({
+  resumeText,
+  jobDescription,
+  resumeTitle,
+}: {
+  resumeText: string;
+  jobDescription: string;
+  resumeTitle: string;
+}) {
+  const keywords = extractKeywords(jobDescription);
+  const lines = splitLines(resumeText).slice(0, 8);
+
+  const tailoredResume = [
+    resumeTitle,
+    '',
+    'Summary',
+    'Tailored for the target role based on the provided job description.',
+    '',
+    'Resume Content',
+    ...lines,
+  ].join('\n');
+
+  return {
+    tailored_resume: tailoredResume,
+    summary_of_changes: [
+      'Used a simple baseline prompt with minimal structure.',
+      'Kept the resume close to its original ordering.',
+      'Made only light wording changes for comparison.',
+    ],
+    highlighted_keywords: keywords.slice(0, 3),
+    provider: 'fallback' as const,
+  };
+}
+
+export function generateCurrentTailoredResume({
   resumeText,
   jobDescription,
   resumeTitle,
@@ -98,4 +132,12 @@ export function generateTailoredResumeFallback({
     highlighted_keywords: topKeywords,
     provider: 'fallback' as const,
   };
+}
+
+export function generateTailoredResumeFallback(args: {
+  resumeText: string;
+  jobDescription: string;
+  resumeTitle: string;
+}) {
+  return generateCurrentTailoredResume(args);
 }

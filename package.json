@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",
+    "eval:assignment6": "node evaluation/run-evaluation.mjs",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"

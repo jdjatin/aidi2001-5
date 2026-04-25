@@ -78,9 +78,24 @@ describe('tailor resume route', () => {
   it('returns the generated tailored resume payload on success', async () => {
     generateTailoredResume.mockResolvedValueOnce({
       resumeTitle: 'API Smoke Resume',
-      tailored_resume: 'tailored output',
-      summary_of_changes: ['highlighted matching skills'],
-      highlighted_keywords: ['TypeScript', 'React'],
+      baseline: {
+        tailored_resume: 'baseline output',
+        summary_of_changes: ['used simple prompt'],
+        highlighted_keywords: ['TypeScript'],
+        tailoredResumeId: 'baseline-1',
+        savedTo: 'local',
+        savedAt: '2026-04-24T00:00:00.000Z',
+        provider: 'baseline:fallback',
+      },
+      current: {
+        tailored_resume: 'current output',
+        summary_of_changes: ['highlighted matching skills'],
+        highlighted_keywords: ['TypeScript', 'React'],
+        tailoredResumeId: 'current-1',
+        savedTo: 'local',
+        savedAt: '2026-04-24T00:00:01.000Z',
+        provider: 'current:fallback',
+      },
     });
 
     const { POST } = await import('../app/api/resumes/[id]/tailor/route');
@@ -100,9 +115,24 @@ describe('tailor resume route', () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({
       resumeTitle: 'API Smoke Resume',
-      tailored_resume: 'tailored output',
-      summary_of_changes: ['highlighted matching skills'],
-      highlighted_keywords: ['TypeScript', 'React'],
+      baseline: {
+        tailored_resume: 'baseline output',
+        summary_of_changes: ['used simple prompt'],
+        highlighted_keywords: ['TypeScript'],
+        tailoredResumeId: 'baseline-1',
+        savedTo: 'local',
+        savedAt: '2026-04-24T00:00:00.000Z',
+        provider: 'baseline:fallback',
+      },
+      current: {
+        tailored_resume: 'current output',
+        summary_of_changes: ['highlighted matching skills'],
+        highlighted_keywords: ['TypeScript', 'React'],
+        tailoredResumeId: 'current-1',
+        savedTo: 'local',
+        savedAt: '2026-04-24T00:00:01.000Z',
+        provider: 'current:fallback',
+      },
     });
   });
 });

@@ -1,0 +1,659 @@
+{
+  "generatedAt": "2026-04-25T02:51:43.573Z",
+  "evaluationMethod": {
+    "generators": {
+      "baseline": "Simple baseline prompt / heuristic path",
+      "current": "Current structured prompt / heuristic path"
+    },
+    "scoring": [
+      "keyword matching from the job description",
+      "role relevance based on role terms in the output",
+      "presence of required skills from a small skill list"
+    ]
+  },
+  "summary": {
+    "caseCount": 7,
+    "representativeCases": 5,
+    "failureCases": 2,
+    "baselineAverageScore": 7.57,
+    "currentAverageScore": 11.43,
+    "currentWins": 7,
+    "baselineWins": 0,
+    "ties": 0,
+    "betterSystem": "current"
+  },
+  "cases": [
+    {
+      "id": "rep-frontend-engineer",
+      "type": "representative",
+      "shouldSucceed": true,
+      "expectedOutcomeDescription": "A good tailored resume should emphasize React, TypeScript, REST API integration, testing, collaboration with designers, and performance improvements. The output should reorder or strengthen the most relevant frontend bullets without inventing any new experience.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Maya Chen\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nMaya Chen\nToronto, ON\nSummary\nFrontend-focused software engineer with 4 years of experience building web applications for SaaS products. Skilled in React, TypeScript, JavaScript, HTML, CSS, and REST APIs. Collaborates closely with designers and product managers to ship user-facing features.\nSkills\nReact, TypeScript, JavaScript, Next.js, HTML, CSS, REST APIs, Jest, Git, Figma collaboration\nExperience\nSoftware Engineer, Northstar Apps",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "hiring",
+            "frontend",
+            "engineer"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 2,
+          "relevanceScore": 5,
+          "requiredSkillsScore": 4,
+          "total": 11,
+          "matchedKeywords": [
+            "frontend",
+            "engineer",
+            "product"
+          ],
+          "missingKeywords": [
+            "hiring",
+            "accessible",
+            "high",
+            "quality",
+            "experiences."
+          ],
+          "matchedRoleTerms": [
+            "frontend",
+            "engineer",
+            "product"
+          ],
+          "matchedRequiredSkills": [
+            "react",
+            "typescript",
+            "rest",
+            "rest api",
+            "apis"
+          ]
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Maya Chen\n\nProfessional Summary\nTargeted for roles emphasizing hiring, frontend, engineer, accessible.\n\nRelevant Experience and Skills\nFrontend-focused software engineer with 4 years of experience building web applications for SaaS products. Skilled in React, TypeScript, JavaScript, HTML, CSS, and REST APIs. Collaborates closely with designers and product managers to ship user-facing features.\nSoftware Engineer, Northstar Apps\n- Partnered with design and product teams to launch new onboarding flows.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [
+            "frontend",
+            "engineer",
+            "product"
+          ],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 5,
+          "requiredSkillsScore": 4,
+          "total": 12,
+          "matchedKeywords": [
+            "hiring",
+            "frontend",
+            "engineer",
+            "accessible",
+            "product"
+          ],
+          "missingKeywords": [
+            "high",
+            "quality",
+            "experiences."
+          ],
+          "matchedRoleTerms": [
+            "frontend",
+            "engineer",
+            "product"
+          ],
+          "matchedRequiredSkills": [
+            "react",
+            "typescript",
+            "rest",
+            "rest api",
+            "apis"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Representative case. Baseline total 11, current total 12. Current should do better when it surfaces more matched skills and fewer missing keywords."
+    },
+    {
+      "id": "rep-backend-api-engineer",
+      "type": "representative",
+      "shouldSucceed": true,
+      "expectedOutcomeDescription": "A good output should highlight backend APIs, TypeScript, PostgreSQL, Docker, and reliability work. It should clearly surface service development and production support experience, while staying grounded in the existing resume content.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Daniel Singh\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nDaniel Singh\nSummary\nSoftware developer with experience building internal tools and backend services for business operations. Comfortable working with Node.js, TypeScript, PostgreSQL, and cloud deployment workflows.\nSkills\nNode.js, TypeScript, PostgreSQL, Express, SQL, Docker, AWS, REST APIs, CI/CD\nExperience\nBackend Developer, Ledger Operations\n- Built Node.js and Express services for internal finance workflows.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "seeking",
+            "backend",
+            "engineer"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 2,
+          "requiredSkillsScore": 5,
+          "total": 10,
+          "matchedKeywords": [
+            "backend",
+            "api",
+            "typescript",
+            "node.js",
+            "postgresql"
+          ],
+          "missingKeywords": [
+            "seeking",
+            "engineer",
+            "design"
+          ],
+          "matchedRoleTerms": [
+            "backend"
+          ],
+          "matchedRequiredSkills": [
+            "typescript",
+            "node.js",
+            "postgresql",
+            "sql",
+            "rest"
+          ]
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Daniel Singh\n\nProfessional Summary\nTargeted for roles emphasizing seeking, backend, engineer, api.\n\nRelevant Experience and Skills\nSoftware developer with experience building internal tools and backend services for business operations. Comfortable working with Node.js, TypeScript, PostgreSQL, and cloud deployment workflows.\nNode.js, TypeScript, PostgreSQL, Express, SQL, Docker, AWS, REST APIs, CI/CD\n- Designed PostgreSQL tables and queries for reporting features.\nBackend Developer, Ledger Operations\n- Built Node.js and Express services for internal finance workflows.\n- Added API endpoints used by operations and support teams.\nAdvanced Diploma in Software Engineering Technology",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [
+            "backend",
+            "engineer",
+            "api",
+            "design",
+            "typescript",
+            "node.js",
+            "postgresql"
+          ],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 5,
+          "relevanceScore": 4,
+          "requiredSkillsScore": 5,
+          "total": 14,
+          "matchedKeywords": [
+            "seeking",
+            "backend",
+            "engineer",
+            "api",
+            "design",
+            "typescript",
+            "node.js",
+            "postgresql"
+          ],
+          "missingKeywords": [],
+          "matchedRoleTerms": [
+            "backend",
+            "engineer",
+            "support"
+          ],
+          "matchedRequiredSkills": [
+            "typescript",
+            "node.js",
+            "postgresql",
+            "sql",
+            "rest"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Representative case. Baseline total 10, current total 14. Current should do better when it surfaces more matched skills and fewer missing keywords."
+    },
+    {
+      "id": "rep-data-analyst",
+      "type": "representative",
+      "shouldSucceed": true,
+      "expectedOutcomeDescription": "A good tailored resume should bring SQL, Tableau, KPI tracking, reporting, and stakeholder communication to the top. The summary and bullets should sound more aligned to business analytics without adding tools or responsibilities not already present.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Aisha Khan\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nAisha Khan\nSummary\nData analyst with 3 years of experience turning business data into dashboards and insights for operations teams. Experienced with SQL, Excel, Tableau, Python, and stakeholder reporting.\nSkills\nSQL, Tableau, Excel, Python, Data Cleaning, Reporting, Dashboard Design, Stakeholder Communication\nExperience\nData Analyst, City Metrics Co.\n- Built Tableau dashboards for service performance metrics.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "looking",
+            "data",
+            "analyst"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 3,
+          "requiredSkillsScore": 5,
+          "total": 11,
+          "matchedKeywords": [
+            "data",
+            "analyst",
+            "business",
+            "reporting",
+            "dashboard"
+          ],
+          "missingKeywords": [
+            "looking",
+            "support",
+            "development"
+          ],
+          "matchedRoleTerms": [
+            "analyst"
+          ],
+          "matchedRequiredSkills": [
+            "sql",
+            "tableau",
+            "stakeholder",
+            "communication"
+          ]
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Aisha Khan\n\nProfessional Summary\nTargeted for roles emphasizing looking, data, analyst, support.\n\nRelevant Experience and Skills\nData analyst with 3 years of experience turning business data into dashboards and insights for operations teams. Experienced with SQL, Excel, Tableau, Python, and stakeholder reporting.\nSQL, Tableau, Excel, Python, Data Cleaning, Reporting, Dashboard Design, Stakeholder Communication\nData Analyst, City Metrics Co.\n- Built Tableau dashboards for service performance metrics.\n- Wrote SQL queries to clean and analyze operational data.\n- Prepared recurring reports for managers and business partners.\n- Worked with non-technical stakeholders to define reporting needs.\n- Documented data definitions for recurring KPI tracking.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [
+            "data",
+            "analyst",
+            "business",
+            "reporting",
+            "dashboard"
+          ],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 5,
+          "relevanceScore": 5,
+          "requiredSkillsScore": 5,
+          "total": 15,
+          "matchedKeywords": [
+            "looking",
+            "data",
+            "analyst",
+            "support",
+            "business",
+            "reporting",
+            "dashboard"
+          ],
+          "missingKeywords": [
+            "development"
+          ],
+          "matchedRoleTerms": [
+            "analyst",
+            "support"
+          ],
+          "matchedRequiredSkills": [
+            "sql",
+            "tableau",
+            "stakeholder",
+            "communication"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Representative case. Baseline total 11, current total 15. Current should do better when it surfaces more matched skills and fewer missing keywords."
+    },
+    {
+      "id": "rep-product-operations",
+      "type": "representative",
+      "shouldSucceed": true,
+      "expectedOutcomeDescription": "A good result should stress process rollout support, documentation, issue tracking, training, and cross-functional coordination. It should make the resume feel more product-operations oriented while staying within the original operations experience.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Luis Romero\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nLuis Romero\nSummary\nOperations coordinator with experience supporting software implementation projects and improving internal processes. Strong communication, documentation, scheduling, and customer support background.\nSkills\nProcess Improvement, Documentation, Customer Support, Scheduling, Jira, Excel, Cross-functional Communication, Training\nExperience\nOperations Coordinator, BrightPath Systems\n- Supported rollout of new internal software for service teams.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "hiring",
+            "product",
+            "operations"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 4,
+          "requiredSkillsScore": 3,
+          "total": 10,
+          "matchedKeywords": [
+            "operations",
+            "support",
+            "rollout",
+            "processes",
+            "documentation"
+          ],
+          "missingKeywords": [
+            "hiring",
+            "product",
+            "specialist"
+          ],
+          "matchedRoleTerms": [
+            "operations",
+            "support"
+          ],
+          "matchedRequiredSkills": [
+            "documentation"
+          ]
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Luis Romero\n\nProfessional Summary\nTargeted for roles emphasizing hiring, product, operations, specialist.\n\nRelevant Experience and Skills\nOperations coordinator with experience supporting software implementation projects and improving internal processes. Strong communication, documentation, scheduling, and customer support background.\nProcess Improvement, Documentation, Customer Support, Scheduling, Jira, Excel, Cross-functional Communication, Training\n- Supported rollout of new internal software for service teams.\n- Coordinated meetings across support, operations, and project staff.\nOperations Coordinator, BrightPath Systems\n- Helped improve onboarding documentation for new team members.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [
+            "operations",
+            "support",
+            "rollout",
+            "processes",
+            "documentation"
+          ],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 5,
+          "relevanceScore": 5,
+          "requiredSkillsScore": 3,
+          "total": 13,
+          "matchedKeywords": [
+            "hiring",
+            "product",
+            "operations",
+            "specialist",
+            "support",
+            "rollout",
+            "processes",
+            "documentation"
+          ],
+          "missingKeywords": [],
+          "matchedRoleTerms": [
+            "operations",
+            "product",
+            "support"
+          ],
+          "matchedRequiredSkills": [
+            "documentation"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Representative case. Baseline total 10, current total 13. Current should do better when it surfaces more matched skills and fewer missing keywords."
+    },
+    {
+      "id": "rep-fullstack-saas",
+      "type": "representative",
+      "shouldSucceed": true,
+      "expectedOutcomeDescription": "A good tailored output should foreground end-to-end feature delivery, React, Node.js, PostgreSQL, API integration, and agile collaboration. The resume should read more like a SaaS product engineer profile without fabricating seniority or new technologies.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Priya Nair\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nPriya Nair\nSummary\nFull-stack developer with experience building business web applications. Works across frontend and backend systems using JavaScript, React, Node.js, and relational databases.\nSkills\nJavaScript, React, Node.js, Express, PostgreSQL, HTML, CSS, Git, REST APIs\nExperience\nFull-Stack Developer, Orbit Software\n- Built new product features across React frontend and Node.js backend services.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "full",
+            "stack",
+            "engineer"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 3,
+          "requiredSkillsScore": 5,
+          "total": 11,
+          "matchedKeywords": [
+            "full",
+            "stack",
+            "product",
+            "react"
+          ],
+          "missingKeywords": [
+            "engineer",
+            "saas",
+            "team.",
+            "requires"
+          ],
+          "matchedRoleTerms": [
+            "full-stack",
+            "product"
+          ],
+          "matchedRequiredSkills": [
+            "react",
+            "node.js",
+            "postgresql",
+            "sql"
+          ]
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Priya Nair\n\nProfessional Summary\nTargeted for roles emphasizing full, stack, engineer, saas.\n\nRelevant Experience and Skills\nFull-stack developer with experience building business web applications. Works across frontend and backend systems using JavaScript, React, Node.js, and relational databases.\nFull-Stack Developer, Orbit Software\n- Built new product features across React frontend and Node.js backend services.\nJavaScript, React, Node.js, Express, PostgreSQL, HTML, CSS, Git, REST APIs\n- Updated PostgreSQL queries to support new product requirements.\n- Task tracking app with React and Express.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [
+            "full",
+            "stack",
+            "product",
+            "react"
+          ],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 4,
+          "relevanceScore": 5,
+          "requiredSkillsScore": 5,
+          "total": 14,
+          "matchedKeywords": [
+            "full",
+            "stack",
+            "engineer",
+            "saas",
+            "product",
+            "react"
+          ],
+          "missingKeywords": [
+            "team.",
+            "requires"
+          ],
+          "matchedRoleTerms": [
+            "full-stack",
+            "engineer",
+            "product",
+            "saas"
+          ],
+          "matchedRequiredSkills": [
+            "react",
+            "node.js",
+            "postgresql",
+            "sql"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Representative case. Baseline total 11, current total 14. Current should do better when it surfaces more matched skills and fewer missing keywords."
+    },
+    {
+      "id": "fail-cloud-security-mismatch",
+      "type": "failure",
+      "shouldSucceed": false,
+      "expectedOutcomeDescription": "A good system response should avoid pretending the candidate is qualified for this role. The tailored resume may only make minor wording improvements, and the output should still clearly reflect that the base resume lacks cloud security, AWS, Kubernetes, and leadership evidence.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Nina Patel\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nNina Patel\nSummary\nJunior web developer with experience building small business websites and updating content for clients.\nSkills\nHTML, CSS, JavaScript, WordPress, Customer Communication, Basic SEO\nExperience\nWeb Developer, Pixel Corner Studio\n- Updated website layouts for local business clients.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "seeking",
+            "senior",
+            "cloud"
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 0,
+          "relevanceScore": 0,
+          "requiredSkillsScore": 0,
+          "total": 0,
+          "matchedKeywords": [],
+          "missingKeywords": [
+            "seeking",
+            "senior",
+            "cloud",
+            "security",
+            "engineer",
+            "expertise",
+            "aws",
+            "architecture"
+          ],
+          "matchedRoleTerms": [],
+          "matchedRequiredSkills": []
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Nina Patel\n\nProfessional Summary\nTargeted for roles emphasizing seeking, senior, cloud, security.\n\nRelevant Experience and Skills\nNina Patel\nSummary\nJunior web developer with experience building small business websites and updating content for clients.\nSkills\nHTML, CSS, JavaScript, WordPress, Customer Communication, Basic SEO\nExperience\nWeb Developer, Pixel Corner Studio\n- Updated website layouts for local business clients.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 3,
+          "relevanceScore": 3,
+          "requiredSkillsScore": 1,
+          "total": 7,
+          "matchedKeywords": [
+            "seeking",
+            "senior",
+            "cloud",
+            "security"
+          ],
+          "missingKeywords": [
+            "engineer",
+            "expertise",
+            "aws",
+            "architecture"
+          ],
+          "matchedRoleTerms": [
+            "security"
+          ],
+          "matchedRequiredSkills": [
+            "security"
+          ]
+        }
+      },
+      "winner": "current",
+      "notes": "Failure-oriented case. Baseline total 0, current total 7. Both outputs should remain limited because the base resume is a weak match or the job description is too vague."
+    },
+    {
+      "id": "fail-short-vague-jd",
+      "type": "failure",
+      "shouldSucceed": false,
+      "expectedOutcomeDescription": "A good system response should recognize that this job description is too short and too vague to support meaningful tailoring. The expected behavior is either a validation error or a very limited output rather than an overconfident rewrite.",
+      "baseline": {
+        "output": {
+          "tailored_resume": "Omar Ali\n\nSummary\nTailored for the target role based on the provided job description.\n\nResume Content\nOmar Ali\nSummary\nCustomer support specialist with experience helping users solve account and product issues.\nSkills\nCustomer Support, Ticketing Systems, Documentation, Communication, Troubleshooting\nExperience\nSupport Representative, HelpDesk Central\n- Resolved customer account issues through email and chat.",
+          "summary_of_changes": [
+            "Used a simple baseline prompt with minimal structure.",
+            "Kept the resume close to its original ordering.",
+            "Made only light wording changes for comparison."
+          ],
+          "highlighted_keywords": [
+            "good",
+            "worker",
+            "asap."
+          ],
+          "provider": "baseline:heuristic"
+        },
+        "scores": {
+          "keywordScore": 0,
+          "relevanceScore": 0,
+          "requiredSkillsScore": 0,
+          "total": 0,
+          "matchedKeywords": [],
+          "missingKeywords": [
+            "good",
+            "worker",
+            "asap."
+          ],
+          "matchedRoleTerms": [],
+          "matchedRequiredSkills": []
+        }
+      },
+      "current": {
+        "output": {
+          "tailored_resume": "Omar Ali\n\nProfessional Summary\nTargeted for roles emphasizing good, worker, asap..\n\nRelevant Experience and Skills\nOmar Ali\nSummary\nCustomer support specialist with experience helping users solve account and product issues.\nSkills\nCustomer Support, Ticketing Systems, Documentation, Communication, Troubleshooting\nExperience\nSupport Representative, HelpDesk Central\n- Resolved customer account issues through email and chat.",
+          "summary_of_changes": [
+            "Prioritized resume lines that overlap most with the job description.",
+            "Added a targeted summary so the strongest matching skills appear first.",
+            "Highlighted matching keywords already present in the source resume."
+          ],
+          "highlighted_keywords": [],
+          "provider": "current:heuristic"
+        },
+        "scores": {
+          "keywordScore": 5,
+          "relevanceScore": 0,
+          "requiredSkillsScore": 0,
+          "total": 5,
+          "matchedKeywords": [
+            "good",
+            "worker",
+            "asap."
+          ],
+          "missingKeywords": [],
+          "matchedRoleTerms": [],
+          "matchedRequiredSkills": []
+        }
+      },
+      "winner": "current",
+      "notes": "Failure-oriented case. Baseline total 0, current total 5. Both outputs should remain limited because the base resume is a weak match or the job description is too vague."
+    }
+  ]
+}

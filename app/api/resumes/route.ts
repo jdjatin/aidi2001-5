@@ -8,6 +8,7 @@ import {
 import { isDatabaseConnectionError } from '@/lib/runtime-errors';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET() {
   try {
@@ -59,6 +60,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
+    console.error('Create resume route error:', error);
+
     if (error instanceof ZodError) {
       return NextResponse.json(
         { error: error.issues[0]?.message || 'Invalid input.' },
@@ -73,6 +76,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ error: 'Unable to create resume.' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Unable to create resume.';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { generateTailoredResume } from '@/lib/resume-tailor';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const requestSchema = z.object({
   jobDescription: z.string().trim().min(50, 'Add a fuller job description before generating.'),
