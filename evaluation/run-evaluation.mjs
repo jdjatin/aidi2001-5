@@ -135,23 +135,42 @@ function generateCurrentTailoredResume({ resumeText, jobDescription, resumeTitle
   const topKeywords = keywords.filter((keyword) =>
     resumeText.toLowerCase().includes(keyword.toLowerCase()),
   );
+  const supportedKeywords = topKeywords.slice(0, 6);
+  const skillsLine = lines.find((line) =>
+    /(skills|react|typescript|javascript|node|sql|tableau|excel|docker|aws|jira|html|css)/i.test(
+      line,
+    ),
+  );
+  const experienceLines = lines.filter((line) => line !== skillsLine).slice(0, 5);
+  const summaryLead =
+    supportedKeywords.length > 0
+      ? `Evidence-based match for roles emphasizing ${supportedKeywords.slice(0, 4).join(', ')}.`
+      : 'Evidence-based tailoring using only skills and experience already present in the resume.';
+  const cautiousNote =
+    supportedKeywords.length < 2
+      ? 'Alignment is limited by the evidence available in the base resume.'
+      : null;
 
   return {
     tailored_resume: [
       resumeTitle,
       '',
       'Professional Summary',
-      `Targeted for roles emphasizing ${keywords.slice(0, 4).join(', ') || 'relevant experience'}.`,
+      summaryLead,
+      cautiousNote,
+      '',
+      'Relevant Skills',
+      skillsLine || 'No dedicated skills line was clearly available in the source resume.',
       '',
       'Relevant Experience and Skills',
-      ...lines,
+      ...experienceLines,
     ].join('\n'),
     summary_of_changes: [
-      'Prioritized resume lines that overlap most with the job description.',
-      'Added a targeted summary so the strongest matching skills appear first.',
-      'Highlighted matching keywords already present in the source resume.',
+      'Used a stricter prompt style that emphasizes evidenced skills over generic recruiting words.',
+      'Reorganized the output into clearer sections for summary, skills, and relevant experience.',
+      'Pulled forward the strongest supported skills and experience from the source resume.',
     ],
-    highlighted_keywords: topKeywords,
+    highlighted_keywords: supportedKeywords,
     provider: 'current:heuristic',
   };
 }

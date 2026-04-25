@@ -65,14 +65,25 @@ Rules:
 - Use only information already present in the resume.
 - Do not invent employers, dates, tools, certifications, or achievements.
 - Rephrase, reorder, and prioritize content to better match the job description.
+- Prefer concrete skills, tools, responsibilities, and domain terms over generic recruiting words.
+- Never treat words like "hiring", "seeking", "looking", "candidate", "role", "good", or "ASAP" as meaningful keywords.
+- Emphasize only skills and experience that are clearly supported by the base resume.
+- If the match is weak, keep the language cautious and do not overstate fit.
 - Return valid JSON only.
 
 Return exactly:
 {
-  "tailored_resume": "full updated resume text in a clean ATS-friendly single-column format",
+  "tailored_resume": "full updated resume text in a clean ATS-friendly single-column format with these sections when supported: Professional Summary, Relevant Skills, Relevant Experience, Education",
   "summary_of_changes": ["bullet 1", "bullet 2"],
-  "highlighted_keywords": ["keyword 1", "keyword 2"]
+  "highlighted_keywords": ["concrete skill or role term 1", "concrete skill or role term 2"]
 }
+
+Output requirements:
+- Professional Summary: 2-3 lines focused on the strongest supported match to the job description.
+- Relevant Skills: surface the most relevant existing skills near the top.
+- Relevant Experience: lead with the most relevant bullets or lines from the resume.
+- Keep formatting clean and readable.
+- highlighted_keywords must include only useful, job-relevant terms that are supported by the resume.
 
 Base resume:
 ${resumeText}
